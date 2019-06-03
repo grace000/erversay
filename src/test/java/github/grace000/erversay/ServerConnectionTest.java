@@ -8,7 +8,7 @@ public class ServerConnectionTest {
     @Test
     public void it_accepts_connection() {
        ServerConnection connection = new ServerConnection();
-        assertEquals(connection.acceptConnection(), "Howdy");
+        assertEquals(connection.acceptConnection(), null);
 
     }
 
