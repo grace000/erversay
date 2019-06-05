@@ -6,7 +6,9 @@ import java.io.*;
 
 public class Server {
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(8009)) {
+        int port = Integer.parseInt(args[0]);
+
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server running ...");
 
             while (true) {
