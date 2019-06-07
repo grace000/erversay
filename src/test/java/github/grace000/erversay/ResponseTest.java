@@ -8,9 +8,9 @@ public class ResponseTest {
 
         @Test
         public void itHasADefaultCodeOf200() {
-            Response response = new Response().withCode(400).withStatus("Bad Request");
+            Response response = new Response().withCode(200).withStatus("OK");
             String formattedResponse = response.build();
-            assertEquals(formattedResponse, "HTTP/1.1 400 Bad Request\r\nContent Length: 0\r\n\r\n");
+            assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
         }
 
         @Test
