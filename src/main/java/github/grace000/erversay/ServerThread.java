@@ -16,10 +16,8 @@ public class ServerThread extends Thread {
             OutputStream outputFromServer = socket.getOutputStream();
             PrintWriter serverPrintOut = new PrintWriter(new OutputStreamWriter(outputFromServer, "UTF-8"), true);
 
-
-            serverPrintOut.println("HTTP/1.1 200 OK");
-            serverPrintOut.println("Content-Length: 0");
-            serverPrintOut.println("");
+            String response = new Response().build();
+            serverPrintOut.println(response);
             serverPrintOut.flush();
 
             System.out.println("Message sent");
