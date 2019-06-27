@@ -12,6 +12,7 @@ public class RequestRouter {
         if (requestLineArray[uriIndex].equals(SIMPLE_GET_URI)) {
             routeTable.put(CODE, DEFAULT_CODE);
             routeTable.put(STATUS, DEFAULT_STATUS);
+            routeTable.put("body", "");
             return routeTable;
         } else {
             routeTable.put(CODE, NOT_FOUND_CODE);

@@ -31,4 +31,24 @@ public class RequestRouterTest {
         assertEquals("404", responseRoute.get("code"));
         assertEquals("Not Found", responseRoute.get("status"));
     }
+
+    @Test
+    public void itExcludesBodyForHeadRequest() {
+        String requestLine = "HEAD /simple_get HTTP/1.1";
+        parsedRequestArray = requestLine.split("\\s");
+
+        responseRoute = new RequestRouter().route(parsedRequestArray);
+
+        assertEquals("", responseRoute.get("body"));
+    }
+
+    @Test
+    public void itIncludesBodyForPiggyRequest() {
+        String requestLine = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 6\r\n\r\npiggly";
+        parsedRequestArray = requestLine.split("\\s");
+
+        responseRoute = new RequestRouter().route(parsedRequestArray);
+
+        assertEquals("piggly", responseRoute.get("body"));
+    }
 }

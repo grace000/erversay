@@ -23,7 +23,7 @@ public class ServerThread extends Thread {
 
     public void run() {
         String input = convertInputToString();
-        String[] request = parser.parse(input);
+        String[] request = parser.parseRequestLine(input);
 
         HashMap routedRequest = router.route(request);
         String response = responseBuilder.getResponse(routedRequest);

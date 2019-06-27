@@ -27,6 +27,7 @@ public class ResponseBuilder {
     public String getResponse(HashMap routeTable) {
         String code = (String) routeTable.get(CODE);
         String status = (String) routeTable.get(STATUS);
+        String body = (String) routeTable.get("body");
         return withCode(code).withStatus(status).build();
     }
 
