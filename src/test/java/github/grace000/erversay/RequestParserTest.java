@@ -2,7 +2,10 @@ package github.grace000.erversay;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 public class RequestParserTest {
     private String request = "GET /simple_get HTTP/1.1";
@@ -48,7 +51,16 @@ public class RequestParserTest {
         String[] expectedHeaders = {"Content-Type:text/plain", "Content-Length: 6"};
         String[] headers = parser.getHeaders(requestWithBody);
 
-        assertEquals(expectedHeaders, headers);
+        assertTrue(Arrays.equals(expectedHeaders, headers));
+    }
+
+    @Test
+    public void itGetsBody() {
+        parser = new RequestParser();
+
+        String body = parser.getBody(requestWithBody);
+
+        assertEquals(body, "piggly");
     }
 }
 
