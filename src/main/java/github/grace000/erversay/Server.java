@@ -1,7 +1,8 @@
 package github.grace000.erversay;
 
-import java.net.*;
-import java.io.*;
+import java.net.Socket;
+import java.net.ServerSocket;
+import java.io.IOException;
 
 
 public class Server {

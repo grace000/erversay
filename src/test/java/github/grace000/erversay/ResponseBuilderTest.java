@@ -8,7 +8,7 @@ public class ResponseBuilderTest {
 
         @Test
         public void itHasADefaultCodeOf200() {
-            ResponseBuilder responseBuilder = new ResponseBuilder().withCode(200).withStatus("OK");
+            ResponseBuilder responseBuilder = new ResponseBuilder().withCode("200").withStatus("OK");
             String formattedResponse = responseBuilder.build();
             assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
         }
