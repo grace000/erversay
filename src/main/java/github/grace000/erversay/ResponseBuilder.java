@@ -5,8 +5,8 @@ import java.util.HashMap;
 import static github.grace000.erversay.Constants.*;
 
 public class ResponseBuilder {
-    private String code = "200";
-    private String status = "OK";
+    private String code = DEFAULT_CODE;
+    private String status = DEFAULT_STATUS;
     private String body = " ";
 
     public ResponseBuilder withCode(String code){
@@ -25,8 +25,8 @@ public class ResponseBuilder {
     }
 
     public String getResponse(HashMap routeTable) {
-        String code = (String) routeTable.get("code");
-        String status = (String) routeTable.get("status");
+        String code = (String) routeTable.get(CODE);
+        String status = (String) routeTable.get(STATUS);
         return withCode(code).withStatus(status).build();
     }
 
