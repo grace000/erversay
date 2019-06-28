@@ -1,7 +1,5 @@
 package github.grace000.erversay;
 
-import java.util.HashMap;
-
 import static github.grace000.erversay.Constants.*;
 
 public class ResponseBuilder {
@@ -24,11 +22,8 @@ public class ResponseBuilder {
         return this;
     }
 
-    public String getResponse(HashMap routeTable) {
-        String code = (String) routeTable.get(CODE);
-        String status = (String) routeTable.get(STATUS);
-        String body = (String) routeTable.get("body");
-        return withCode(code).withStatus(status).build();
+    public String getResponse(Response response) {
+        return withCode(response.code).withStatus(response.status).withCode(response.body).build();
     }
 
     public String build(){

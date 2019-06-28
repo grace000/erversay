@@ -7,7 +7,7 @@ import java.util.List;
 public class RequestParser {
     public String handleEmptyRequest(String requestString) {
         if (requestString == null || requestString.isEmpty()) {
-            System.out.println("REQUEST LINE CANNOT BE PARSED");
+            System.out.println("REQUEST CANNOT BE PARSED");
             requestString = "GET /NOT_FOUND HTTP/1.1";
         }
         return requestString;

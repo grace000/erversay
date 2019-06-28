@@ -7,48 +7,46 @@ import java.util.HashMap;
 import static junit.framework.TestCase.assertEquals;
 
 public class RequestRouterTest {
-    private String[]  parsedRequestArray;
-    private HashMap responseRoute;
 
     @Test
-    public void itReturnsResponseRouteForSimpleGet() {
-        String requestLine = "GET /simple_get HTTP/1.1";
-        parsedRequestArray = requestLine.split("\\s");
+    public void itReturnsResponseForSimpleGet() {
+        String request = "GET /simple_get HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        Request parsedRequest = new RequestParser().parse(request);
 
-        responseRoute = new RequestRouter().route(parsedRequestArray);
+        Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("200", responseRoute.get("code"));
-        assertEquals("OK", responseRoute.get("status"));
+        assertEquals("200", response.code);
+        assertEquals("OK", response.status);
     }
 
     @Test
-    public void itReturnsResponseRouteForNotFoundResource() {
-        String requestLine = "GET /not_found_resource HTTP/1.1";
-        parsedRequestArray = requestLine.split("\\s");
+    public void itReturnsResponseForNotFoundRequest() {
+        String request = "GET /not_found_resource HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        Request parsedRequest = new RequestParser().parse(request);
 
-        responseRoute = new RequestRouter().route(parsedRequestArray);
+        Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("404", responseRoute.get("code"));
-        assertEquals("Not Found", responseRoute.get("status"));
+        assertEquals("404", response.code);
+        assertEquals("Not Found", response.status);
     }
 
     @Test
     public void itExcludesBodyForHeadRequest() {
-        String requestLine = "HEAD /simple_get HTTP/1.1";
-        parsedRequestArray = requestLine.split("\\s");
+        String request = "HEAD /simple_get HTTP/1.1";
+        Request parsedRequest = new RequestParser().parse(request);
 
-        responseRoute = new RequestRouter().route(parsedRequestArray);
+        Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("", responseRoute.get("body"));
+        assertEquals("", response.body);
     }
 
     @Test
     public void itIncludesBodyForPiggyRequest() {
-        String requestLine = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 6\r\n\r\npiggly";
-        parsedRequestArray = requestLine.split("\\s");
+        String request = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        Request parsedRequest = new RequestParser().parse(request);
 
-        responseRoute = new RequestRouter().route(parsedRequestArray);
+        Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("piggly", responseRoute.get("body"));
+        assertEquals("piggly wiggly", response.body);
     }
 }

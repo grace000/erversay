@@ -5,19 +5,46 @@ import java.util.HashMap;
 import static github.grace000.erversay.Constants.*;
 
 public class RequestRouter {
-    private HashMap<String, String> routeTable = new HashMap<>();
+    private String code;
+    private String status;
+    private String body;
 
-    public HashMap route(String[] requestLineArray) {
-        int uriIndex = 1;
-        if (requestLineArray[uriIndex].equals(SIMPLE_GET_URI)) {
-            routeTable.put(CODE, DEFAULT_CODE);
-            routeTable.put(STATUS, DEFAULT_STATUS);
-            routeTable.put("body", "");
-            return routeTable;
-        } else {
-            routeTable.put(CODE, NOT_FOUND_CODE);
-            routeTable.put(STATUS, NOT_FOUND_STATUS);
-            return routeTable;
+    public Response route(Request request) {
+        String method = request.method;
+        String path = request.path;
+
+        return getResponse(method, path);
+    }
+
+    private Response getResponse(String method, String path) {
+        switch(path) {
+            case SIMPLE_GET_URI:
+                getResponseForSimpleGet();
+                break;
+            case PIGGLY_URI:
+                getResponseForPigglyGet();
+                break;
+            default:
+                getResponseForNotFound();
         }
+        return new Response(code, status, body);
+    }
+
+    private void getResponseForSimpleGet() {
+        code = DEFAULT_CODE;
+        status = DEFAULT_STATUS;
+        body = EMPTY_BODY;
+    }
+
+    private void getResponseForNotFound() {
+        code = NOT_FOUND_CODE;
+        status = NOT_FOUND_STATUS;
+        body = EMPTY_BODY;
+    }
+
+    private void getResponseForPigglyGet() {
+        code = DEFAULT_CODE;
+        status = DEFAULT_STATUS;
+        body = PIGGLY_BODY;
     }
 }
