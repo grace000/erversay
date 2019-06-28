@@ -1,7 +1,5 @@
 package github.grace000.erversay;
 
-import java.util.HashMap;
-
 import static github.grace000.erversay.Constants.*;
 
 public class RequestRouter {

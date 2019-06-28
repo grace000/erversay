@@ -2,23 +2,17 @@ package github.grace000.erversay;
 
 import java.io.*;
 import java.net.*;
-import java.util.HashMap;
 
 public class ServerThread extends Thread {
     private Socket socket;
     private InputStream inputStream;
-    private RequestParser parser;
     private RequestReader reader;
     private ResponseBuilder responseBuilder;
-    private RequestRouter router;
 
     public ServerThread(Socket socket) {
         this.socket = socket;
-        parser = new RequestParser();
         reader = new RequestReader();
         responseBuilder = new ResponseBuilder();
-        router = new RequestRouter();
-
     }
 
     public void run() {
