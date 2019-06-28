@@ -6,6 +6,7 @@ public class ResponseBuilder {
     private String code = DEFAULT_CODE;
     private String status = DEFAULT_STATUS;
     private String body = " ";
+    private int contentLength = 0;
 
     public ResponseBuilder withCode(String code){
         this.code = code;
@@ -22,11 +23,17 @@ public class ResponseBuilder {
         return this;
     }
 
+    public ResponseBuilder withContentLength(int contentLength, String body) {
+        contentLength = body.getBytes().length;
+        this.contentLength = contentLength;
+        return this;
+    }
+
     public String getResponse(Response response) {
-        return withCode(response.code).withStatus(response.status).withCode(response.body).build();
+        return withCode(response.code).withStatus(response.status).withBody(response.body).withContentLength(response.contentLength, response.body).build();
     }
 
     public String build(){
-        return DEFAULT_VERSION + SP + this.code + SP + this.status + CRLF + "Content-Length: 0" + DOUBLE_LINE_FEED + this.body;
+        return DEFAULT_VERSION + SP + this.code + SP + this.status + CRLF + "Content-Length: " + this.contentLength + DOUBLE_LINE_FEED + this.body;
     }
 }

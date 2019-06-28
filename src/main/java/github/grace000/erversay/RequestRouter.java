@@ -8,15 +8,15 @@ public class RequestRouter {
     private String code;
     private String status;
     private String body;
+    private int contentLength;
 
     public Response route(Request request) {
-        String method = request.method;
         String path = request.path;
 
-        return getResponse(method, path);
+        return getResponse(path);
     }
 
-    private Response getResponse(String method, String path) {
+    private Response getResponse(String path) {
         switch(path) {
             case SIMPLE_GET_URI:
                 getResponseForSimpleGet();
@@ -27,7 +27,7 @@ public class RequestRouter {
             default:
                 getResponseForNotFound();
         }
-        return new Response(code, status, body);
+        return new Response(code, status, body, contentLength);
     }
 
     private void getResponseForSimpleGet() {
