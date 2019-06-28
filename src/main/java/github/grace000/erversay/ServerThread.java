@@ -23,11 +23,11 @@ public class ServerThread extends Thread {
 
     public void run() {
         String input = convertInputToString();
-        String[] request = parser.parseRequestLine(input);
+//        String[] request = parser.parseRequestLine(input);
 
-        HashMap routedRequest = router.route(request);
-        String response = responseBuilder.getResponse(routedRequest);
-        writeResponse(socket, response);
+//        HashMap routedRequest = router.route(request);
+//        String response = responseBuilder.getResponse(routedRequest);
+//        writeResponse(socket, response);
 
         System.out.println("Message sent");
         try {

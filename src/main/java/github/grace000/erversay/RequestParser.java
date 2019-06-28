@@ -5,22 +5,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RequestParser {
-    public String[] parseRequestLine(String requestLine) {
-        if (requestLine == null || requestLine.isEmpty()) {
+    public String handleEmptyRequest(String requestString) {
+        if (requestString == null || requestString.isEmpty()) {
             System.out.println("REQUEST LINE CANNOT BE PARSED");
-            requestLine = "GET /NOT_FOUND HTTP/1.1";
+            requestString = "GET /NOT_FOUND HTTP/1.1";
         }
-
-        System.out.println(requestLine);
-        return requestLine.split("\\s");
-    }
-
-    public String[] parseRequest(String requestString) {
-        return requestString.split("\r\n");
+        return requestString;
     }
 
     public String getRequestLine(String requestString) {
         return requestString.split("\r\n")[0];
+    }
+
+    public String getMethod(String requestLine) {
+      return requestLine.split("\\s")[0];
+    }
+
+    public String getPath(String requestLine) {
+        return requestLine.split("\\s")[1];
     }
 
     public String[] getHeaders(String requestString) {
@@ -36,5 +38,16 @@ public class RequestParser {
     public String getBody(String requestString) {
         String[] requestLines = requestString.split("\r\n");
         return requestLines[requestLines.length - 1];
+    }
+
+    public Request parse(String requestString){
+        String checkedRequest = handleEmptyRequest(requestString);
+
+        String requestLine = getRequestLine(checkedRequest);
+        String method = getMethod(requestLine);
+        String path = getPath(requestLine);
+        String body = getBody(checkedRequest);
+
+        return new Request(method, path, body);
     }
 }

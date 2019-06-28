@@ -34,5 +34,4 @@ public class ResponseBuilder {
     public String build(){
         return DEFAULT_VERSION + SP + this.code + SP + this.status + CRLF + "Content-Length: 0" + DOUBLE_LINE_FEED + this.body;
     }
-
 }

@@ -8,32 +8,8 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class RequestParserTest {
-    private String request = "GET /simple_get HTTP/1.1";
     private String requestWithBody = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 6\r\n\r\npiggly";
     private RequestParser parser;
-
-    @Test
-    public void itReturnsMethodPathVersionRequestArray() {
-        parser = new RequestParser();
-
-        String[] parsedRequest = parser.parseRequestLine(request);
-
-        assertEquals(parsedRequest[0], "GET");
-        assertEquals(parsedRequest[1], "/simple_get");
-        assertEquals(parsedRequest[2], "HTTP/1.1");
-    }
-
-    @Test
-    public void itParsesRequestIntoSeparateLines() {
-        parser = new RequestParser();
-
-        String[] parsedRequest = parser.parseRequest(requestWithBody);
-
-        assertEquals(parsedRequest[0], "GET /piggly HTTP/1.1");
-        assertEquals(parsedRequest[1], "Content-Type:text/plain");
-        assertEquals(parsedRequest[2], "Content-Length: 6");
-        assertEquals(parsedRequest[4], "piggly");
-    }
 
     @Test
     public void itGetsRequestLine() {
@@ -61,6 +37,37 @@ public class RequestParserTest {
         String body = parser.getBody(requestWithBody);
 
         assertEquals(body, "piggly");
+    }
+
+    @Test
+    public void itGetsMethod() {
+        parser = new RequestParser();
+
+        String requestLine = parser.getRequestLine(requestWithBody);
+        String method = parser.getMethod(requestLine);
+
+        assertEquals(method, "GET");
+    }
+
+    @Test
+    public void itGetsPath() {
+        parser = new RequestParser();
+
+        String requestLine = parser.getRequestLine(requestWithBody);
+        String path = parser.getPath(requestLine);
+
+        assertEquals(path, "/piggly");
+    }
+
+    @Test
+    public void itCreatesRequestObject() {
+        parser = new RequestParser();
+
+        Request request = parser.parse(requestWithBody);
+
+        assertEquals(request.method, "GET");
+        assertEquals(request.path, "/piggly");
+        assertEquals(request.body, "piggly");
     }
 }
 
