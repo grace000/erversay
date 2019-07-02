@@ -5,11 +5,13 @@ public class Response {
     public String status;
     public String body;
     public int contentLength;
+    public String headers;
 
-    public Response(String code, String status, String body, int contentLength) {
+    public Response(String code, String status, String body, int contentLength, String headers) {
         this.code = code;
         this.status = status;
         this.body = body;
         this.contentLength = contentLength;
+        this.headers = headers;
     }
 }

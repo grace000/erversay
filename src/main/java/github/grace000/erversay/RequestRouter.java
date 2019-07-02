@@ -7,6 +7,7 @@ public class RequestRouter {
     private String status;
     private String body;
     private int contentLength;
+    private String headers;
 
     public Response route(Request request) {
         String path = request.path;
@@ -25,7 +26,7 @@ public class RequestRouter {
             default:
                 getResponseForNotFound();
         }
-        return new Response(code, status, body, contentLength);
+        return new Response(code, status, body, contentLength, headers);
     }
 
     private void getResponseForSimpleGet() {
