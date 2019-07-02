@@ -23,6 +23,9 @@ public class RequestRouter {
             case PIGGLY_URI:
                 getResponseForPigglyGet();
                 break;
+            case "/methods_options":
+                getResponseForOptions();
+                break;
             default:
                 getResponseForNotFound();
         }
@@ -45,5 +48,12 @@ public class RequestRouter {
         code = DEFAULT_CODE;
         status = DEFAULT_STATUS;
         body = PIGGLY_BODY;
+    }
+
+    private void getResponseForOptions() {
+        code = DEFAULT_CODE;
+        status = DEFAULT_STATUS;
+        body = EMPTY_BODY;
+        headers = "Allow: OPTIONS, GET, HEAD";
     }
 }

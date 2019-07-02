@@ -34,7 +34,7 @@ public class ResponseBuilder {
     }
 
     public ResponseBuilder withHeaders(String headers) {
-        this.headers = headers;
+        this.headers = CRLF + headers;
         return this;
     }
 

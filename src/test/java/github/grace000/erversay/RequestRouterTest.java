@@ -50,13 +50,13 @@ public class RequestRouterTest {
         assertEquals("piggly wiggly", response.body);
     }
 
-//    @Test
-//    public void itIncludesGetAsAllowedHeadersForOptionsRequest() {
-//        String request = "OPTIONS /methods_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-//        Request parsedRequest = new RequestParser().parse(request);
-//
-//        Response response = new RequestRouter().route(parsedRequest);
-//
-//        assertEquals("GET", response.headers);
-//    }
+    @Test
+    public void itIncludesGetAsAllowedHeadersForOptionsRequest() {
+        String request = "OPTIONS /methods_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        Request parsedRequest = new RequestParser().parse(request);
+
+        Response response = new RequestRouter().route(parsedRequest);
+
+        assertEquals("Allow: OPTIONS, GET, HEAD", response.headers);
+    }
 }
