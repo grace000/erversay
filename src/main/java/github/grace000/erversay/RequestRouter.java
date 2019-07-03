@@ -1,13 +1,9 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Constants.StatusCodes;
-
-import static github.grace000.erversay.Constants.HTTPLines.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
-import static github.grace000.erversay.Constants.Headers.PIGGLY_BODY;
+import static github.grace000.erversay.Constants.Body.*;
 import static github.grace000.erversay.Constants.Paths.*;
-import static github.grace000.erversay.Constants.StatusCodes.DEFAULT_STATUS;
-import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
+import static github.grace000.erversay.Constants.StatusCodes.*;
 
 public class RequestRouter {
     private String status;
