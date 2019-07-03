@@ -1,23 +1,16 @@
 package github.grace000.erversay;
 
-import java.util.HashMap;
-import java.util.Map;
+import github.grace000.erversay.Constants.StatusCodes;
 
-import static github.grace000.erversay.Constants.*;
+import static github.grace000.erversay.Constants.HTTPLines.*;
 
 public class ResponseBuilder {
-    private String code = DEFAULT_CODE;
-    private String status = DEFAULT_STATUS;
+    private StatusCodes status;
     private String body = " ";
     private int contentLength = 0;
     private String headers = "";
 
-    public ResponseBuilder withCode(String code){
-        this.code = code;
-        return this;
-    }
-
-    public ResponseBuilder withStatus(String status){
+    public ResponseBuilder withStatus(StatusCodes status){
         this.status = status;
         return this;
     }
@@ -39,10 +32,10 @@ public class ResponseBuilder {
     }
 
     public String getResponse(Response response) {
-        return withCode(response.code).withStatus(response.status).withBody(response.body).withContentLength(response.contentLength, response.body).withHeaders(response.headers).build();
+        return withStatus(response.status).withBody(response.body).withContentLength(response.contentLength, response.body).withHeaders(response.headers).build();
     }
 
     public String build(){
-        return DEFAULT_VERSION + SP + this.code + SP + this.status + this.headers + CRLF + "Content-Length: " + this.contentLength + DOUBLE_LINE_FEED + this.body;
+        return DEFAULT_VERSION + SP + this.status + this.headers + CRLF + "Content-Length: " + this.contentLength + DOUBLE_LINE_FEED + this.body;
     }
 }

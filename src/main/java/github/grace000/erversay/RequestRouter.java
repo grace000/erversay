@@ -1,10 +1,16 @@
 package github.grace000.erversay;
 
-import static github.grace000.erversay.Constants.*;
+import github.grace000.erversay.Constants.StatusCodes;
+
+import static github.grace000.erversay.Constants.HTTPLines.EMPTY_BODY;
+import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
+import static github.grace000.erversay.Constants.Headers.PIGGLY_BODY;
+import static github.grace000.erversay.Constants.Paths.*;
+import static github.grace000.erversay.Constants.StatusCodes.DEFAULT_STATUS;
+import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
 public class RequestRouter {
-    private String code;
-    private String status;
+    private StatusCodes status;
     private String body;
     private int contentLength;
     private String headers;
@@ -23,37 +29,33 @@ public class RequestRouter {
             case PIGGLY_URI:
                 getResponseForPigglyGet();
                 break;
-            case "/methods_options":
+            case METHODS_ONE_URI:
                 getResponseForOptions();
                 break;
             default:
                 getResponseForNotFound();
         }
-        return new Response(code, status, body, contentLength, headers);
+        return new Response(status, body, contentLength, headers);
     }
 
     private void getResponseForSimpleGet() {
-        code = DEFAULT_CODE;
         status = DEFAULT_STATUS;
         body = EMPTY_BODY;
     }
 
     private void getResponseForNotFound() {
-        code = NOT_FOUND_CODE;
         status = NOT_FOUND_STATUS;
         body = EMPTY_BODY;
     }
 
     private void getResponseForPigglyGet() {
-        code = DEFAULT_CODE;
         status = DEFAULT_STATUS;
         body = PIGGLY_BODY;
     }
 
     private void getResponseForOptions() {
-        code = DEFAULT_CODE;
         status = DEFAULT_STATUS;
         body = EMPTY_BODY;
-        headers = "Allow: OPTIONS, GET, HEAD";
+        headers = OPTIONS_HEADER;
     }
 }
