@@ -1,16 +1,15 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Constants.StatusCodes;
-
 import static github.grace000.erversay.Constants.HTTPLines.*;
+import static github.grace000.erversay.Constants.StatusCodes.DEFAULT_STATUS;
 
 public class ResponseBuilder {
-    private StatusCodes status;
+    private String status = DEFAULT_STATUS;
     private String body = " ";
     private int contentLength = 0;
     private String headers = "";
 
-    public ResponseBuilder withStatus(StatusCodes status){
+    public ResponseBuilder withStatus(String status){
         this.status = status;
         return this;
     }

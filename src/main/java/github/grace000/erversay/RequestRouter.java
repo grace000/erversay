@@ -10,7 +10,7 @@ import static github.grace000.erversay.Constants.StatusCodes.DEFAULT_STATUS;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
 public class RequestRouter {
-    private StatusCodes status;
+    private String status;
     private String body;
     private int contentLength;
     private String headers;

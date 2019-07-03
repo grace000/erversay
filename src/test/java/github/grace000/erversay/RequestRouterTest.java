@@ -15,7 +15,7 @@ public class RequestRouterTest {
 
         Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("200 OK", response.status.getStatusCode());
+        assertEquals("200 OK", response.status);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class RequestRouterTest {
 
         Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("404 Not Found", response.status.getStatusCode());
+        assertEquals("404 Not Found", response.status);
     }
 
     @Test
