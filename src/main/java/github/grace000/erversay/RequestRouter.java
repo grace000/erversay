@@ -13,23 +13,22 @@ public class RequestRouter {
 
     public Response route(Request request) {
         String path = request.path;
+        String method = request.method;
 
-        return getResponse(path);
+        return getResponse(path, method);
     }
 
-    private Response getResponse(String path) {
-        switch(path) {
-            case SIMPLE_GET_URI:
-                getResponseForSimpleGet();
-                break;
-            case PIGGLY_URI:
-                getResponseForPigglyGet();
-                break;
-            case METHODS_ONE_URI:
+    private Response getResponse(String path, String method) {
+        if (path.equals(SIMPLE_GET_URI) && method.equals("GET")) {
+            getResponseForSimpleGet();
+        } else if(path.equals(PIGGLY_URI) && method.equals("GET")) {
+            getResponseForPigglyGet();
+        } else if(path.equals(METHODS_ONE_URI)) {
+            if(method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD")) {
                 getResponseForOptions();
-                break;
-            default:
-                getResponseForNotFound();
+            }
+        } else {
+            getResponseForNotFound();
         }
         return new Response(status, body, contentLength, headers);
     }
