@@ -35,7 +35,7 @@ public class RequestRouter {
     }
 
     private void getResponseForSimpleGet() {
-        status = DEFAULT_STATUS;
+        status = OK_STATUS;
         body = EMPTY_BODY;
     }
 
@@ -45,12 +45,12 @@ public class RequestRouter {
     }
 
     private void getResponseForPigglyGet() {
-        status = DEFAULT_STATUS;
+        status = OK_STATUS;
         body = PIGGLY_BODY;
     }
 
     private void getResponseForOptions() {
-        status = DEFAULT_STATUS;
+        status = OK_STATUS;
         body = EMPTY_BODY;
         headers = OPTIONS_HEADER;
     }

@@ -12,7 +12,7 @@ import static junit.framework.TestCase.assertEquals;
 public class ResponseBuilderTest {
 
     @Test
-    public void itRetunsAFormattedDefaultResponse() {
+    public void itReturnsAFormattedDefaultResponse() {
         ResponseBuilder responseBuilder = new ResponseBuilder();
         String formattedResponse = responseBuilder.build();
         assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n ");
