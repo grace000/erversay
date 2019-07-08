@@ -27,6 +27,10 @@ public class RequestRouter {
             if(method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD")) {
                 getResponseForOptions();
             }
+        } else if(path.equals(METHODS_TWO_URI)) {
+            if(method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD")) {
+                getResponseForOptionsTwo();
+            }
         } else {
             getResponseForNotFound();
         }
@@ -52,5 +56,11 @@ public class RequestRouter {
         status = OK_STATUS;
         body = EMPTY_BODY;
         headers = OPTIONS_HEADER;
+    }
+
+    private void getResponseForOptionsTwo() {
+        status = OK_STATUS;
+        body = EMPTY_BODY;
+        headers = OPTIONS_TWO_HEADER;
     }
 }
