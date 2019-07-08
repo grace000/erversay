@@ -15,8 +15,7 @@ public class RequestRouterTest {
 
         Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("200", response.code);
-        assertEquals("OK", response.status);
+        assertEquals("200 OK", response.status);
     }
 
     @Test
@@ -26,8 +25,7 @@ public class RequestRouterTest {
 
         Response response = new RequestRouter().route(parsedRequest);
 
-        assertEquals("404", response.code);
-        assertEquals("Not Found", response.status);
+        assertEquals("404 Not Found", response.status);
     }
 
     @Test
@@ -48,5 +46,15 @@ public class RequestRouterTest {
         Response response = new RequestRouter().route(parsedRequest);
 
         assertEquals("piggly wiggly", response.body);
+    }
+
+    @Test
+    public void itIncludesGetAsAllowedHeadersForOptionsRequest() {
+        String request = "OPTIONS /methods_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        Request parsedRequest = new RequestParser().parse(request);
+
+        Response response = new RequestRouter().route(parsedRequest);
+
+        assertEquals("Allow: OPTIONS, GET, HEAD", response.headers);
     }
 }
