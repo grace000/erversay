@@ -1,8 +1,7 @@
 package github.grace000.erversay;
 
-import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
+import static github.grace000.erversay.Constants.Headers.*;
 import static github.grace000.erversay.Constants.Body.*;
-import static github.grace000.erversay.Constants.Headers.OPTIONS_TWO_HEADER;
 import static github.grace000.erversay.Constants.Paths.*;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 
