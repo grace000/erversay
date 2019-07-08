@@ -18,6 +18,6 @@ public class ResponseBuilderTest {
     public void itReturnsHeadersForOptionsResponse() {
         ResponseBuilder response = new ResponseBuilder().withHeaders(Headers.OPTIONS_HEADER);
         String formattedResponse = response.build();
-        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n ");
+        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
     }
 }

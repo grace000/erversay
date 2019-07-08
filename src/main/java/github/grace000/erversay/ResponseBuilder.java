@@ -30,10 +30,11 @@ public class ResponseBuilder {
         return this;
     }
 
-    public String getResponse(){
+    public String getResponse(Response response){
         return withStatus(response.status)
                 .withBody(response.body)
                 .withContentLength(response.contentLength, response.body)
+                .withHeaders(response.headers)
                 .build();
     }
 
@@ -42,7 +43,7 @@ public class ResponseBuilder {
     }
 
     private String header(){
-        return DEFAULT_VERSION + SP + this.status + CRLF;
+        return DEFAULT_VERSION + SP + this.status + this.headers + CRLF;
     }
 
     private String contentLength() {
