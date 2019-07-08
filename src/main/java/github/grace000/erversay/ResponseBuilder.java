@@ -30,10 +30,22 @@ public class ResponseBuilder {
     }
 
     public String getResponse(Response response) {
-        return withCode(response.code).withStatus(response.status).withBody(response.body).withContentLength(response.contentLength, response.body).build();
+        return withCode(response.code)
+                .withStatus(response.status)
+                .withBody(response.body)
+                .withContentLength(response.contentLength, response.body)
+                .build();
     }
 
     public String build(){
-        return DEFAULT_VERSION + SP + this.code + SP + this.status + CRLF + "Content-Length: " + this.contentLength + DOUBLE_LINE_FEED + this.body;
+        return header() + contentLength() + DOUBLE_LINE_FEED + this.body;
+    }
+
+    private String header(){
+        return DEFAULT_VERSION + SP + this.code + SP + this.status + CRLF;
+    }
+
+    private String contentLength() {
+        return "Content-Length: " + this.contentLength;
     }
 }
