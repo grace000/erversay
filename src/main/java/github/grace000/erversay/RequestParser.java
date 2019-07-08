@@ -5,6 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RequestParser {
+    private int requestLineIndex = 0;
+    private int methodIndex = 0;
+    private int pathIndex = 1;
+
     public String handleEmptyRequest(String requestString) {
         if (requestString == null || requestString.isEmpty()) {
             System.out.println("REQUEST CANNOT BE PARSED");
@@ -14,21 +18,21 @@ public class RequestParser {
     }
 
     public String getRequestLine(String requestString) {
-        return requestString.split("\r\n")[0];
+        return requestString.split("\r\n")[requestLineIndex];
     }
 
     public String getMethod(String requestLine) {
-      return requestLine.split("\\s")[0];
+      return requestLine.split("\\s")[methodIndex];
     }
 
     public String getPath(String requestLine) {
-        return requestLine.split("\\s")[1];
+        return requestLine.split("\\s")[pathIndex];
     }
 
     public String[] getHeaders(String requestString) {
         String[] requestLines = requestString.split("\r\n");
         List<String> requestList = new LinkedList<>(Arrays.asList(requestLines));
-        requestList.remove(0);
+        requestList.remove(requestLineIndex);
         requestList.remove(requestList.size() - 1);
         requestList.removeAll(Arrays.asList("", null));
 
