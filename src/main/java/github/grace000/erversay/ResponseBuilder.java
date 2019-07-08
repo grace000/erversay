@@ -1,13 +1,17 @@
 package github.grace000.erversay;
 
-import static github.grace000.erversay.Constants.HTTPLines.*;
-import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
+import static github.grace000.erversay.Constants.*;
 
 public class ResponseBuilder {
-    private String status = OK_STATUS;
+    private String code = DEFAULT_CODE;
+    private String status = DEFAULT_STATUS;
     private String body = "";
     private int contentLength = 0;
-    private String headers = "";
+
+    public ResponseBuilder withCode(String code){
+        this.code = code;
+        return this;
+    }
 
     public ResponseBuilder withStatus(String status){
         this.status = status;
@@ -25,13 +29,9 @@ public class ResponseBuilder {
         return this;
     }
 
-    public ResponseBuilder withHeaders(String headers) {
-        this.headers = CRLF + headers;
-        return this;
-    }
-
-    public String getResponse(){
-        return withStatus(response.status)
+    public String getResponse(Response response) {
+        return withCode(response.code)
+                .withStatus(response.status)
                 .withBody(response.body)
                 .withContentLength(response.contentLength, response.body)
                 .build();
@@ -42,7 +42,7 @@ public class ResponseBuilder {
     }
 
     private String header(){
-        return DEFAULT_VERSION + SP + this.status + CRLF;
+        return DEFAULT_VERSION + SP + this.code + SP + this.status + CRLF;
     }
 
     private String contentLength() {
