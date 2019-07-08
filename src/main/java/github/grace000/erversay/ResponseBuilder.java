@@ -6,7 +6,6 @@ import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 public class ResponseBuilder {
     private String status = OK_STATUS;
     private String body = "";
-
     private int contentLength = 0;
     private String headers = "";
 
@@ -32,8 +31,7 @@ public class ResponseBuilder {
     }
 
     public String getResponse(){
-        return withCode(response.code)
-                .withStatus(response.status)
+        return withStatus(response.status)
                 .withBody(response.body)
                 .withContentLength(response.contentLength, response.body)
                 .build();
@@ -44,7 +42,7 @@ public class ResponseBuilder {
     }
 
     private String header(){
-        return DEFAULT_VERSION + SP + this.code + SP + this.status + CRLF;
+        return DEFAULT_VERSION + SP + this.status + CRLF;
     }
 
     private String contentLength() {

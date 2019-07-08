@@ -1,11 +1,7 @@
 package github.grace000.erversay;
 
 import github.grace000.erversay.Constants.Headers;
-import github.grace000.erversay.Constants.StatusCodes;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
 
