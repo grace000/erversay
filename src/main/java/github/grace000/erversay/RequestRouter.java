@@ -24,11 +24,11 @@ public class RequestRouter {
         } else if(path.equals(PIGGLY_URI) && method.equals("GET")) {
             getResponseForPigglyGet();
         } else if(path.equals(METHODS_ONE_URI)) {
-            if(method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD")) {
+            if(isStandardOptionsRequest(method)) {
                 getResponseForOptions();
             }
         } else if(path.equals(METHODS_TWO_URI)) {
-            if(method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD") || method.equals("PUT") || method.equals("POST")) {
+            if(isStandardOptionsRequest(method) || method.equals("PUT") || method.equals("POST")) {
                 getResponseForOptionsTwo();
             }
         } else {
@@ -62,5 +62,9 @@ public class RequestRouter {
         status = OK_STATUS;
         body = EMPTY_BODY;
         headers = OPTIONS_TWO_HEADER;
+    }
+
+    private boolean isStandardOptionsRequest(String method) {
+        return method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD");
     }
 }
