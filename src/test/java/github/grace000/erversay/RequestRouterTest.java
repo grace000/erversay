@@ -50,11 +50,21 @@ public class RequestRouterTest {
 
     @Test
     public void itIncludesGetAsAllowedHeadersForOptionsRequest() {
-        String request = "OPTIONS /methods_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        String request = "OPTIONS /method_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
         Request parsedRequest = new RequestParser().parse(request);
 
         Response response = new RequestRouter().route(parsedRequest);
 
         assertEquals("Allow: OPTIONS, GET, HEAD", response.headers);
+    }
+
+    @Test
+    public void itIncludesPutAndPostAsAllowedHeadersForOptionsTwoRequest() {
+        String request = "OPTIONS /method_options2 HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        Request parsedRequest = new RequestParser().parse(request);
+
+        Response response = new RequestRouter().route(parsedRequest);
+
+        assertEquals("Allow: OPTIONS, GET, HEAD, PUT, POST", response.headers);
     }
 }

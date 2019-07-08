@@ -2,6 +2,7 @@ package github.grace000.erversay;
 
 import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
 import static github.grace000.erversay.Constants.Body.*;
+import static github.grace000.erversay.Constants.Headers.OPTIONS_TWO_HEADER;
 import static github.grace000.erversay.Constants.Paths.*;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 
@@ -28,7 +29,7 @@ public class RequestRouter {
                 getResponseForOptions();
             }
         } else if(path.equals(METHODS_TWO_URI)) {
-            if(method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD")) {
+            if(method.equals("OPTIONS") || method.equals("GET") || method.equals("HEAD") || method.equals("PUT") || method.equals("POST")) {
                 getResponseForOptionsTwo();
             }
         } else {
