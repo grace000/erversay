@@ -5,7 +5,7 @@ import static github.grace000.erversay.Constants.*;
 public class ResponseBuilder {
     private String code = DEFAULT_CODE;
     private String status = DEFAULT_STATUS;
-    private String body = " ";
+    private String body = "";
     private int contentLength = 0;
 
     public ResponseBuilder withCode(String code){
