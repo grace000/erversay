@@ -1,10 +1,13 @@
 package github.grace000.erversay;
 
+import github.grace000.erversay.Handlers.Handler;
+import github.grace000.erversay.Handlers.OptionsTwo;
 import org.junit.Test;
 
 import java.util.HashMap;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 public class RequestRouterTest {
 
@@ -66,5 +69,19 @@ public class RequestRouterTest {
         Response response = new RequestRouter().route(parsedRequest);
 
         assertEquals("Allow: OPTIONS, GET, HEAD, PUT, POST", response.headers);
+    }
+
+    @Test
+    public void itMatchesRequestPathWithAvailableRoutes() {
+        String request = "OPTIONS /method_options2 HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
+        Request parsedRequest = new RequestParser().parse(request);
+
+        HashMap routes = new Routes().routes;
+        routes.put("/method_options2", new OptionsTwo());
+
+        String route = new RequestRouter().findMatchingRoute(parsedRequest, routes);
+
+
+        assertEquals(route, "options 2");
     }
 }

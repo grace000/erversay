@@ -1,5 +1,9 @@
 package github.grace000.erversay;
 
+import github.grace000.erversay.Handlers.Handler;
+
+import java.util.HashMap;
+
 import static github.grace000.erversay.Constants.Headers.*;
 import static github.grace000.erversay.Constants.Body.*;
 import static github.grace000.erversay.Constants.Paths.*;
@@ -10,12 +14,26 @@ public class RequestRouter {
     private String body;
     private int contentLength;
     private String headers;
+    private String path;
+
 
     public Response route(Request request) {
         String path = request.path;
         String method = request.method;
 
         return getResponse(path, method);
+    }
+
+    public String findMatchingRoute(Request request, HashMap routes) {
+        path = request.path;
+        if (routes.containsKey(path)) {
+            Handler pathHandler = (Handler) routes.get(path);
+
+            System.out.println(pathHandler.handle());
+            return pathHandler.handle();
+
+        }
+        return path;
     }
 
     private Response getResponse(String path, String method) {
