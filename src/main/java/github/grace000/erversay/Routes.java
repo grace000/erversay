@@ -1,8 +1,6 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Handlers.Handler;
-import github.grace000.erversay.Handlers.OptionsTwo;
-import github.grace000.erversay.Handlers.SimpleGet;
+import github.grace000.erversay.Handlers.*;
 
 import java.util.HashMap;
 
@@ -10,6 +8,9 @@ public class Routes {
     public HashMap<String, Handler> routes = new HashMap<>();
     {
         routes.put("/simple_get", new SimpleGet());
+        routes.put("/get_with_body", new SimpleGet());
+        routes.put("/method_options", new Options());
         routes.put("/method_options2", new OptionsTwo());
+        routes.put("/echo_body", new Post());
     }
 }

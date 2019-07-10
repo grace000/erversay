@@ -1,7 +1,10 @@
 package github.grace000.erversay;
 
+import github.grace000.erversay.Handlers.Handler;
+
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
 
 public class ServerThread extends Thread {
     private Socket socket;
@@ -18,8 +21,8 @@ public class ServerThread extends Thread {
     public void run() {
         String input = convertInputToString();
         Request request = new RequestParser().parse(input);
-        Response routedRequest = new RequestRouter().route(request);
-        String response = responseBuilder.getResponse(routedRequest);
+        HashMap<String, Handler> routes = new Routes().routes;
+        String response = new RequestRouter().route(request, routes);
         writeResponse(socket, response);
 
         System.out.println("Message sent");
