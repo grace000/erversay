@@ -1,8 +1,8 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Handlers.Handler;
+import github.grace000.erversay.RouteHandlers.RouteHandler;
 
-public class MockRouteHandler implements Handler {
+public class MockRouteHandler implements RouteHandler {
     public boolean handleRequestWasCalled = false;
 
     @Override

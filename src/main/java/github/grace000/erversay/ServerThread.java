@@ -1,6 +1,6 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Handlers.Handler;
+import github.grace000.erversay.RouteHandlers.RouteHandler;
 
 import java.io.*;
 import java.net.*;
@@ -27,7 +27,7 @@ public class ServerThread extends Thread {
     }
 
     private void createResponse(Request request) {
-        HashMap<String, Handler> routes = new Routes().routes;
+        HashMap<String, RouteHandler> routes = new Routes().routes;
         String response = new RequestRouter().route(request, routes);
         writeResponse(socket, response);
         System.out.println("Message sent");

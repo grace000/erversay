@@ -1,6 +1,6 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Handlers.Handler;
+import github.grace000.erversay.RouteHandlers.RouteHandler;
 
 import java.util.HashMap;
 
@@ -12,8 +12,8 @@ public class RequestRouter {
     private String handleRequest(Request request, HashMap routes) {
         String path = request.path;
         if (routes.containsKey(path)) {
-            Handler pathHandler = (Handler) routes.get(path);
-            return pathHandler.handle(request);
+            RouteHandler routeHandler = (RouteHandler) routes.get(path);
+            return routeHandler.handle(request);
         }
         return path;
     }

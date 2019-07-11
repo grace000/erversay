@@ -1,13 +1,14 @@
-package github.grace000.erversay.Handlers;
+package github.grace000.erversay.RouteHandlers;
 
 import github.grace000.erversay.Request;
 import github.grace000.erversay.ResponseBuilder;
 
+import static github.grace000.erversay.Constants.Headers.OPTIONS_TWO_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
-public class SimpleGet implements Handler{
+public class OptionsTwo implements RouteHandler {
     public enum AcceptedMethods {
-        GET, HEAD, OPTIONS
+        GET, HEAD, OPTIONS, PUT, POST
     }
 
     public boolean isMethodAllowed(String method) {
@@ -21,7 +22,9 @@ public class SimpleGet implements Handler{
 
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
-                return new ResponseBuilder().build();
+            return new ResponseBuilder()
+                    .withHeaders(OPTIONS_TWO_HEADER)
+                    .build();
         } else return new ResponseBuilder()
                 .withStatus(NOT_FOUND_STATUS)
                 .build();

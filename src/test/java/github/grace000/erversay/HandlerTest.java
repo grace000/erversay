@@ -1,15 +1,15 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Handlers.*;
+import github.grace000.erversay.RouteHandlers.*;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
 public class HandlerTest {
-    private Handler simpleGetHandler = new SimpleGet();
-    private Handler optionsHandler = new Options();
-    private Handler optionsTwoHandler = new OptionsTwo();
-    private Handler postHandler = new Post();
+    private RouteHandler simpleGetHandler = new SimpleGet();
+    private RouteHandler optionsHandler = new Options();
+    private RouteHandler optionsTwoHandler = new OptionsTwo();
+    private RouteHandler postHandler = new Post();
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
         Request request = new Request("GET", "/simple_get", "");

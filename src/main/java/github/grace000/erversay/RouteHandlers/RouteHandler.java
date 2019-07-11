@@ -1,8 +1,8 @@
-package github.grace000.erversay.Handlers;
+package github.grace000.erversay.RouteHandlers;
 
 import github.grace000.erversay.Request;
 
-public interface Handler {
+public interface RouteHandler {
     public boolean isMethodAllowed(String method);
     public String handle(Request request);
 }

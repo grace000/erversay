@@ -1,11 +1,11 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Handlers.*;
+import github.grace000.erversay.RouteHandlers.*;
 
 import java.util.HashMap;
 
 public class Routes {
-    public HashMap<String, Handler> routes = new HashMap<>();
+    public HashMap<String, RouteHandler> routes = new HashMap<>();
     {
         routes.put("/simple_get", new SimpleGet());
         routes.put("/get_with_body", new SimpleGet());
