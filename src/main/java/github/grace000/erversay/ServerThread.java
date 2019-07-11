@@ -5,7 +5,6 @@ import github.grace000.erversay.Handlers.Handler;
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class ServerThread extends Thread {
     private Socket socket;
@@ -20,22 +19,16 @@ public class ServerThread extends Thread {
     }
 
     public void run() {
-        BufferedReader input = convertInputToString();
+        BufferedReader unparsedRequest = readRequest();
         Request request = null;
         try {
-            request = new RequestParser().parse(input);
+            request = new RequestParser().parse(unparsedRequest);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        HashMap<String, Handler> routes = new Routes().routes;
-        String response = new RequestRouter().route(request, routes);
-        writeResponse(socket, response);
 
-        System.out.println("method " + request.method);
-        System.out.println("path "+request.path);
-        System.out.println("body "+request.body);
+        createResponse(request);
 
-        System.out.println("Message sent");
         try {
             socket.close();
         } catch (IOException e) {
@@ -44,7 +37,14 @@ public class ServerThread extends Thread {
         }
     }
 
-    public void writeResponse(Socket socket, String response) {
+    private void createResponse(Request request) {
+        HashMap<String, Handler> routes = new Routes().routes;
+        String response = new RequestRouter().route(request, routes);
+        writeResponse(socket, response);
+        System.out.println("Message sent");
+    }
+
+    private void writeResponse(Socket socket, String response) {
         try {
             OutputStream outputFromServer = socket.getOutputStream();
             PrintWriter output = new PrintWriter(new OutputStreamWriter(outputFromServer, "UTF-8"), true);
@@ -56,23 +56,10 @@ public class ServerThread extends Thread {
         }
     }
 
-//    public LinkedHashMap convertInputToString() {
-//        socketGetInputStream();
-//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-//        LinkedHashMap convertedInput = null;
-//        try {
-//            convertedInput = reader.readRequest(bufferedReader);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return convertedInput;
-//    }
 
-    public BufferedReader convertInputToString() {
+    private BufferedReader readRequest() {
         socketGetInputStream();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-        return bufferedReader;
+        return new BufferedReader(new InputStreamReader(inputStream));
     }
 
     private void socketGetInputStream() {

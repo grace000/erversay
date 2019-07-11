@@ -6,7 +6,6 @@ import github.grace000.erversay.ResponseBuilder;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
 public class Post implements Handler {
-
     public boolean isMethodAllowed(String method) {
         return method.equals("POST");
     }
