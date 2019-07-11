@@ -5,6 +5,7 @@ import github.grace000.erversay.Handlers.Handler;
 import java.io.*;
 import java.net.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class ServerThread extends Thread {
     private Socket socket;
@@ -19,11 +20,20 @@ public class ServerThread extends Thread {
     }
 
     public void run() {
-        String input = convertInputToString();
-        Request request = new RequestParser().parse(input);
+        BufferedReader input = convertInputToString();
+        Request request = null;
+        try {
+            request = new RequestParser().parse(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         HashMap<String, Handler> routes = new Routes().routes;
         String response = new RequestRouter().route(request, routes);
         writeResponse(socket, response);
+
+        System.out.println("method " + request.method);
+        System.out.println("path "+request.path);
+        System.out.println("body "+request.body);
 
         System.out.println("Message sent");
         try {
@@ -46,16 +56,23 @@ public class ServerThread extends Thread {
         }
     }
 
-    public String convertInputToString() {
+//    public LinkedHashMap convertInputToString() {
+//        socketGetInputStream();
+//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//        LinkedHashMap convertedInput = null;
+//        try {
+//            convertedInput = reader.readRequest(bufferedReader);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return convertedInput;
+//    }
+
+    public BufferedReader convertInputToString() {
         socketGetInputStream();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String convertedInput = "";
-        try {
-            convertedInput = reader.readRequest(bufferedReader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return convertedInput;
+
+        return bufferedReader;
     }
 
     private void socketGetInputStream() {
