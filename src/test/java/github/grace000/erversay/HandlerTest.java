@@ -10,6 +10,8 @@ public class HandlerTest {
     private RouteHandler optionsHandler = new Options();
     private RouteHandler optionsTwoHandler = new OptionsTwo();
     private RouteHandler postHandler = new Post();
+    private RouteHandler notFoundHandler = new NotFound();
+
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
         Request request = new Request("GET", "/simple_get", "");
@@ -69,7 +71,7 @@ public class HandlerTest {
     @Test
     public void notAllowedHandlerBuilds405ResponseForGetMethod() {
         Request request = new Request("GET", "/get_with_body", " ");
-        String response = postHandler.handle(request);
+        String response = notFoundHandler.handle(request);
 
         assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\ncontent-length: 0\r\n\r\n");
     }
