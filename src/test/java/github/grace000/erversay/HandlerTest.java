@@ -65,4 +65,12 @@ public class HandlerTest {
 
         assertEquals(response, "HTTP/1.1 200 OK\r\ncontent-length: 4\r\n\r\nbody");
     }
+
+    @Test
+    public void notAllowedHandlerBuilds405ResponseForGetMethod() {
+        Request request = new Request("GET", "/get_with_body", " ");
+        String response = postHandler.handle(request);
+
+        assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\ncontent-length: 0\r\n\r\n");
+    }
 }
