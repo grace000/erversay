@@ -12,7 +12,12 @@ public class Post implements Handler {
 
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
-            return new ResponseBuilder().withBody(request.body).withContentLength(request.body.length(), request.body).build();
-        } else return new ResponseBuilder().withStatus(NOT_FOUND_STATUS).build();
+            return new ResponseBuilder()
+                    .withBody(request.body)
+                    .withContentLength(request.body.length(), request.body)
+                    .build();
+        } else return new ResponseBuilder()
+                .withStatus(NOT_FOUND_STATUS)
+                .build();
     }
 }

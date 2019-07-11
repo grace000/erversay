@@ -47,6 +47,6 @@ public class ResponseBuilder {
     }
 
     private String contentLength() {
-        return "Content-Length: " + this.contentLength;
+        return "content-length: " + this.contentLength;
     }
 }

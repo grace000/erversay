@@ -11,13 +11,13 @@ public class ResponseBuilderTest {
     public void itReturnsAFormattedDefaultResponse() {
         ResponseBuilder responseBuilder = new ResponseBuilder();
         String formattedResponse = responseBuilder.build();
-        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\ncontent-length: 0\r\n\r\n");
     }
 
     @Test
     public void itReturnsHeadersForOptionsResponse() {
         ResponseBuilder response = new ResponseBuilder().withHeaders(Headers.OPTIONS_HEADER);
         String formattedResponse = response.build();
-        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\ncontent-length: 0\r\n\r\n");
     }
 }

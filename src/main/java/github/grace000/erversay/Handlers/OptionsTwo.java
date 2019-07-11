@@ -22,7 +22,11 @@ public class OptionsTwo implements Handler {
 
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
-            return new ResponseBuilder().withHeaders(OPTIONS_TWO_HEADER).build();
-        } else return new ResponseBuilder().withStatus(NOT_FOUND_STATUS).build();
+            return new ResponseBuilder()
+                    .withHeaders(OPTIONS_TWO_HEADER)
+                    .build();
+        } else return new ResponseBuilder()
+                .withStatus(NOT_FOUND_STATUS)
+                .build();
     }
 }

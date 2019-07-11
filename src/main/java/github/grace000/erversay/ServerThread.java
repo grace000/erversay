@@ -9,27 +9,16 @@ import java.util.HashMap;
 public class ServerThread extends Thread {
     private Socket socket;
     private InputStream inputStream;
-    private RequestReader reader;
-    private ResponseBuilder responseBuilder;
+    private Request request;
 
     public ServerThread(Socket socket) {
         this.socket = socket;
-        reader = new RequestReader();
-        responseBuilder = new ResponseBuilder();
     }
 
     public void run() {
-        BufferedReader unparsedRequest = readRequest();
-        Request request = null;
         try {
-            request = new RequestParser().parse(unparsedRequest);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        createResponse(request);
-
-        try {
+            request = new RequestParser().parse(readRequest());
+            createResponse(request);
             socket.close();
         } catch (IOException e) {
             System.out.println("Server exception: " + e.getMessage());
@@ -55,7 +44,6 @@ public class ServerThread extends Thread {
             e.printStackTrace();
         }
     }
-
 
     private BufferedReader readRequest() {
         socketGetInputStream();

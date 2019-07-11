@@ -1,48 +1,68 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Handlers.Options;
-import github.grace000.erversay.Handlers.OptionsTwo;
-import github.grace000.erversay.Handlers.Post;
-import github.grace000.erversay.Handlers.SimpleGet;
+import github.grace000.erversay.Handlers.*;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
 public class HandlerTest {
-
+    private Handler simpleGetHandler = new SimpleGet();
+    private Handler optionsHandler = new Options();
+    private Handler optionsTwoHandler = new OptionsTwo();
+    private Handler postHandler = new Post();
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
-        String request = "GET /simple_get HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
-        String builtResponse = new SimpleGet().handle(parsedRequest);
+        Request request = new Request("GET", "/simple_get", "");
+        String response = simpleGetHandler.handle(request);
 
-        assertEquals(builtResponse, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 200 OK\r\ncontent-length: 0\r\n\r\n");
+    }
+
+    @Test
+    public void simpleGetHandlerBuildsResponseForUnknownMethod() {
+        Request request = new Request("POST", "/simple_get", "");
+        String response = simpleGetHandler.handle(request);
+
+        assertEquals(response, "HTTP/1.1 404 Not Found\r\ncontent-length: 0\r\n\r\n");
     }
 
     @Test
     public void optionsHandlerBuildsResponseForGetMethod() {
-        String request = "GET /method_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
-        String builtResponse = new Options().handle(parsedRequest);
+        Request request = new Request("GET", "/method_options", " ");
+        String response = optionsHandler.handle(request);
 
-        assertEquals(builtResponse, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\ncontent-length: 0\r\n\r\n");
+    }
+
+    @Test
+    public void optionsHandlerBuildsResponseForUnknownMethod() {
+        Request request = new Request("PUT", "/method_options", " ");
+        String response = optionsHandler.handle(request);
+
+        assertEquals(response, "HTTP/1.1 404 Not Found\r\ncontent-length: 0\r\n\r\n");
+    }
+
+    @Test
+    public void optionsTwoHandlerBuildsForOptionsMethod() {
+        Request request = new Request("OPTIONS", "/method_options", " ");
+        String response = optionsTwoHandler.handle(request);
+
+        assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD, PUT, POST\r\ncontent-length: 0\r\n\r\n");
     }
 
     @Test
     public void optionsTwoHandlerBuildsNotFoundForUnknownMethod() {
-        String request = "DELETE /method_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
-        String builtResponse = new OptionsTwo().handle(parsedRequest);
+        Request request = new Request("DELETE", "/method_options", " ");
+        String response = optionsTwoHandler.handle(request);
 
-        assertEquals(builtResponse, "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 404 Not Found\r\ncontent-length: 0\r\n\r\n");
     }
 
     @Test
     public void postHandlerEchosResponseBody() {
-        String request = "POST /echo_body HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 4\r\n\r\nbody";
-        Request parsedRequest = new RequestParser().parse(request);
-        String builtResponse = new Post().handle(parsedRequest);
+        Request request = new Request("POST", "/echo_body", "body");
+        String response = postHandler.handle(request);
 
-        assertEquals(builtResponse, "HTTP/1.1 200 OK\r\nContent-Length: 4\r\n\r\nbody");
+        assertEquals(response, "HTTP/1.1 200 OK\r\ncontent-length: 4\r\n\r\nbody");
     }
 }

@@ -22,6 +22,8 @@ public class SimpleGet implements Handler{
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
                 return new ResponseBuilder().build();
-        } else return new ResponseBuilder().withStatus(NOT_FOUND_STATUS).build();
+        } else return new ResponseBuilder()
+                .withStatus(NOT_FOUND_STATUS)
+                .build();
     }
 }
