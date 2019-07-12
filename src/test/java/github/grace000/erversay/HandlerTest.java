@@ -12,6 +12,7 @@ public class HandlerTest {
     private RouteHandler optionsTwoHandler = new OptionsTwo();
     private RouteHandler postHandler = new Post();
     private RouteHandler notAllowedHandler = new NotAllowed();
+    private RouteHandler redirectHandler = new Redirect();
 
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
@@ -91,5 +92,13 @@ public class HandlerTest {
         String response = notAllowedHandler.handle(request);
 
         assertEquals(response, "HTTP/1.1 200 OK\r\ncontent-length: 0\r\n\r\n");
+    }
+
+    @Test
+    public void simpleGetHandlerBuildsResponseForRedirect() {
+        Request request = new Request("GET", "/redirect", "");
+        String response = redirectHandler.handle(request);
+
+        assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:5000/simple_get\r\ncontent-length: 0\r\n\r\n");
     }
 }

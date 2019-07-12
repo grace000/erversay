@@ -81,4 +81,12 @@ public class RequestRouterTest {
                 String response = router.route(request, routes);
                 assertEquals(response, "HTTP/1.1 404 Not Found\r\ncontent-length: 0\r\n\r\n");
         }
+
+        @Test
+        public void itRoutesMovedRequest() {
+                Request request = new Request("GET", "/redirect","");
+
+                String response = router.route(request, routes);
+                assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: http://0.0.0.0:5000/simple_get\r\ncontent-length: 0\r\n\r\n");
+        }
 }

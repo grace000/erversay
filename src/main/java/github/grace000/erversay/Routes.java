@@ -12,5 +12,6 @@ public class Routes {
         routes.put("/method_options2", new OptionsTwo());
         routes.put("/echo_body", new Post());
         routes.put("/get_with_body", new NotAllowed());
+        routes.put("/redirect", new Redirect());
     }
 }
