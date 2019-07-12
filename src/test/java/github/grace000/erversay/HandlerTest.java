@@ -4,13 +4,14 @@ import github.grace000.erversay.RouteHandlers.*;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotSame;
 
 public class HandlerTest {
     private RouteHandler simpleGetHandler = new SimpleGet();
     private RouteHandler optionsHandler = new Options();
     private RouteHandler optionsTwoHandler = new OptionsTwo();
     private RouteHandler postHandler = new Post();
-    private RouteHandler notFoundHandler = new NotFound();
+    private RouteHandler notAllowedHandler = new NotAllowed();
 
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
@@ -46,15 +47,23 @@ public class HandlerTest {
 
     @Test
     public void optionsTwoHandlerBuildsForOptionsMethod() {
-        Request request = new Request("OPTIONS", "/method_options", " ");
+        Request request = new Request("OPTIONS", "/method_options2", " ");
         String response = optionsTwoHandler.handle(request);
 
         assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD, PUT, POST\r\ncontent-length: 0\r\n\r\n");
     }
 
     @Test
+    public void optionsTwoHandlerDoesNotBuildNotFoundForOptionsMethod() {
+        Request request = new Request("OPTIONS", "/method_options2", " ");
+        String response = optionsTwoHandler.handle(request);
+
+        assertNotSame(response, "HTTP/1.1 404 Not Found\r\ncontent-length: 0\r\n\r\n");
+    }
+
+    @Test
     public void optionsTwoHandlerBuildsNotFoundForUnknownMethod() {
-        Request request = new Request("DELETE", "/method_options", " ");
+        Request request = new Request("DELETE", "/method_options2", " ");
         String response = optionsTwoHandler.handle(request);
 
         assertEquals(response, "HTTP/1.1 404 Not Found\r\ncontent-length: 0\r\n\r\n");
@@ -71,8 +80,16 @@ public class HandlerTest {
     @Test
     public void notAllowedHandlerBuilds405ResponseForGetMethod() {
         Request request = new Request("GET", "/get_with_body", " ");
-        String response = notFoundHandler.handle(request);
+        String response = notAllowedHandler.handle(request);
 
-        assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\ncontent-length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\nAllow: HEAD, OPTIONS\r\ncontent-length: 0\r\n\r\n");
+    }
+
+    @Test
+    public void notAllowedHandlerBuildsOKResponseForHeadMethod() {
+        Request request = new Request("HEAD", "/get_with_body", " ");
+        String response = notAllowedHandler.handle(request);
+
+        assertEquals(response, "HTTP/1.1 200 OK\r\ncontent-length: 0\r\n\r\n");
     }
 }

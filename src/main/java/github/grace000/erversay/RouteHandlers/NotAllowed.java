@@ -5,17 +5,17 @@ import github.grace000.erversay.ResponseBuilder;
 
 import java.util.Arrays;
 
-import static github.grace000.erversay.Constants.Headers.OPTIONS_TWO_HEADER;
-import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
+import static github.grace000.erversay.Constants.Headers.NOT_ALLOWED_HEADER;
+import static github.grace000.erversay.Constants.StatusCodes.*;
 
-public class OptionsTwo implements RouteHandler {
-    public enum AcceptedMethods {
-        GET, HEAD, OPTIONS, PUT, POST
+public class NotAllowed implements RouteHandler {
+    private enum AllowedMethods {
+        HEAD, OPTIONS
     }
 
     public boolean isMethodAllowed(String method) {
-        for (AcceptedMethods acceptedMethods : AcceptedMethods.values()) {
-            if (acceptedMethods.name().equals(method)) {
+        for (AllowedMethods allowedMethods : AllowedMethods.values()) {
+            if (allowedMethods.name().equals(method)) {
                 return true;
             }
         }
@@ -25,10 +25,10 @@ public class OptionsTwo implements RouteHandler {
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
             return new ResponseBuilder()
-                    .withHeaders(OPTIONS_TWO_HEADER)
                     .build();
         } else return new ResponseBuilder()
-                .withStatus(NOT_FOUND_STATUS)
+                .withHeaders(NOT_ALLOWED_HEADER)
+                .withStatus(NOT_ALLOWED_STATUS)
                 .build();
     }
 }
