@@ -13,8 +13,12 @@ public class SimpleGet implements RouteHandler{
     }
 
     public boolean isMethodAllowed(String method) {
-        return Arrays.stream(AcceptedMethods.values())
-                .findFirst().filter(accepted -> (accepted.name().equals(method))).isPresent();
+        for (AcceptedMethods acceptedMethods : AcceptedMethods.values()) {
+            if (acceptedMethods.name().equals(method)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String handle(Request request) {

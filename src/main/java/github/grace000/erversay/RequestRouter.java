@@ -4,6 +4,8 @@ import github.grace000.erversay.RouteHandlers.RouteHandler;
 
 import java.util.HashMap;
 
+import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
+
 public class RequestRouter {
     public String route(Request request, HashMap routes) {
         return handleRequest(request, routes);
@@ -11,10 +13,16 @@ public class RequestRouter {
 
     private String handleRequest(Request request, HashMap routes) {
         String path = request.path;
-        if (routes.containsKey(path)) {
-            RouteHandler routeHandler = (RouteHandler) routes.get(path);
-            return routeHandler.handle(request);
+
+        if (!routes.containsKey(path)) {
+            return handleUnknownPath();
         }
-        return path;
+
+        RouteHandler routeHandler = (RouteHandler) routes.get(path);
+        return routeHandler.handle(request);
+    }
+
+    private String handleUnknownPath() {
+        return new ResponseBuilder().withStatus(NOT_FOUND_STATUS).build();
     }
 }
