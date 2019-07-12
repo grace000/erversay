@@ -3,17 +3,19 @@ package github.grace000.erversay.RouteHandlers;
 import github.grace000.erversay.Request;
 import github.grace000.erversay.ResponseBuilder;
 
-import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
-import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
+import java.util.Arrays;
 
-public class Options implements RouteHandler{
-    public enum AcceptedMethods {
-        GET, HEAD, OPTIONS
+import static github.grace000.erversay.Constants.Headers.NOT_ALLOWED_HEADER;
+import static github.grace000.erversay.Constants.StatusCodes.*;
+
+public class NotAllowed implements RouteHandler {
+    private enum AllowedMethods {
+        HEAD, OPTIONS
     }
 
     public boolean isMethodAllowed(String method) {
-        for (AcceptedMethods accepted: AcceptedMethods.values()) {
-            if (accepted.name().equals(method)){
+        for (AllowedMethods allowedMethods : AllowedMethods.values()) {
+            if (allowedMethods.name().equals(method)) {
                 return true;
             }
         }
@@ -23,10 +25,10 @@ public class Options implements RouteHandler{
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
             return new ResponseBuilder()
-                    .withHeaders(OPTIONS_HEADER)
                     .build();
         } else return new ResponseBuilder()
-                .withStatus(NOT_FOUND_STATUS)
+                .withHeaders(NOT_ALLOWED_HEADER)
+                .withStatus(NOT_ALLOWED_STATUS)
                 .build();
     }
 }

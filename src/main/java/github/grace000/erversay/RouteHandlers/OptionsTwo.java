@@ -3,6 +3,8 @@ package github.grace000.erversay.RouteHandlers;
 import github.grace000.erversay.Request;
 import github.grace000.erversay.ResponseBuilder;
 
+import java.util.Arrays;
+
 import static github.grace000.erversay.Constants.Headers.OPTIONS_TWO_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
@@ -12,8 +14,8 @@ public class OptionsTwo implements RouteHandler {
     }
 
     public boolean isMethodAllowed(String method) {
-        for (AcceptedMethods accepted: AcceptedMethods.values()) {
-            if (accepted.name().equals(method)){
+        for (AcceptedMethods acceptedMethods : AcceptedMethods.values()) {
+            if (acceptedMethods.name().equals(method)) {
                 return true;
             }
         }
