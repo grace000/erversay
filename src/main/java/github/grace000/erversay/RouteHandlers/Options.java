@@ -13,7 +13,9 @@ public class Options implements RouteHandler{
 
     public boolean isMethodAllowed(String method) {
         for (AcceptedMethods accepted: AcceptedMethods.values()) {
-            return (accepted.name().equals(method));
+            if (accepted.name().equals(method)){
+                return true;
+            }
         }
         return false;
     }
