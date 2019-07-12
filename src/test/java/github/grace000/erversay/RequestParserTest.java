@@ -2,72 +2,66 @@ package github.grace000.erversay;
 
 import org.junit.Test;
 
+import java.io.*;
 import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class RequestParserTest {
-    private String requestWithBody = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 6\r\n\r\npiggly";
+    private String requestWithBody = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\ncontent-length: 6\r\n\r\npiggly";
     private RequestParser parser;
+    private BufferedReader bufferedReader;
 
-    @Test
-    public void itGetsRequestLine() {
-        parser = new RequestParser();
+    private ByteArrayInputStream getStream(String requestString) {
+        return new ByteArrayInputStream(requestString.getBytes());
+    }
 
-        String requestLine = parser.getRequestLine(requestWithBody);
-
-        assertEquals("GET /piggly HTTP/1.1", requestLine);
+    private BufferedReader reader(ByteArrayInputStream inputStream) {
+        return new BufferedReader(new InputStreamReader(inputStream));
     }
 
     @Test
-    public void itGetsHeaders() {
+    public void itGetsRequestMethod() throws IOException {
         parser = new RequestParser();
 
-        String[] expectedHeaders = {"Content-Type:text/plain", "Content-Length: 6"};
-        String[] headers = parser.getHeaders(requestWithBody);
+        bufferedReader = reader(getStream(requestWithBody));
+        String parsedMethod = parser.parse(bufferedReader).method;
 
-        assertTrue(Arrays.equals(expectedHeaders, headers));
+        assertEquals(parsedMethod, "GET");
     }
 
     @Test
-    public void itGetsBody() {
+    public void itGetsRequestBody() throws IOException {
         parser = new RequestParser();
 
-        String body = parser.getBody(requestWithBody);
+        bufferedReader = reader(getStream(requestWithBody));
+        String parsedBody = parser.parse(bufferedReader).body;
 
-        assertEquals(body, "piggly");
+        assertEquals(parsedBody, "piggly");
+    }
+
+
+    @Test
+    public void itGetsRequestPath() throws IOException {
+        parser = new RequestParser();
+
+        bufferedReader = reader(getStream(requestWithBody));
+        String parsedPath = parser.parse(bufferedReader).path;
+
+        assertEquals(parsedPath, "/piggly");
     }
 
     @Test
-    public void itGetsMethod() {
+    public void itCreatesRequestObjectForPostRequest() throws IOException {
         parser = new RequestParser();
+        String postRequest = "POST /echo_body HTTP/1.1\r\nContent-Type:text/plain\r\ncontent-length: 9\r\n\r\nsome data";
+        bufferedReader = reader(getStream(postRequest));
+        Request request = parser.parse(bufferedReader);
 
-        String requestLine = parser.getRequestLine(requestWithBody);
-        String method = parser.getMethod(requestLine);
-
-        assertEquals(method, "GET");
-    }
-
-    @Test
-    public void itGetsPath() {
-        parser = new RequestParser();
-
-        String requestLine = parser.getRequestLine(requestWithBody);
-        String path = parser.getPath(requestLine);
-
-        assertEquals(path, "/piggly");
-    }
-
-    @Test
-    public void itCreatesRequestObject() {
-        parser = new RequestParser();
-
-        Request request = parser.parse(requestWithBody);
-
-        assertEquals(request.method, "GET");
-        assertEquals(request.path, "/piggly");
-        assertEquals(request.body, "piggly");
+        assertEquals(request.method, "POST");
+        assertEquals(request.path, "/echo_body");
+        assertEquals(request.body, "some data");
     }
 }
 

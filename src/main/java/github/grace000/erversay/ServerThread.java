@@ -1,29 +1,24 @@
 package github.grace000.erversay;
 
+import github.grace000.erversay.RouteHandlers.RouteHandler;
+
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
 
 public class ServerThread extends Thread {
     private Socket socket;
     private InputStream inputStream;
-    private RequestReader reader;
-    private ResponseBuilder responseBuilder;
+    private Request request;
 
     public ServerThread(Socket socket) {
         this.socket = socket;
-        reader = new RequestReader();
-        responseBuilder = new ResponseBuilder();
     }
 
     public void run() {
-        String input = convertInputToString();
-        Request request = new RequestParser().parse(input);
-        Response routedRequest = new RequestRouter().route(request);
-        String response = responseBuilder.getResponse(routedRequest);
-        writeResponse(socket, response);
-
-        System.out.println("Message sent");
         try {
+            request = new RequestParser().parse(readRequest());
+            createResponse(request);
             socket.close();
         } catch (IOException e) {
             System.out.println("Server exception: " + e.getMessage());
@@ -31,7 +26,14 @@ public class ServerThread extends Thread {
         }
     }
 
-    public void writeResponse(Socket socket, String response) {
+    private void createResponse(Request request) {
+        HashMap<String, RouteHandler> routes = new Routes().routes;
+        String response = new RequestRouter().route(request, routes);
+        writeResponse(socket, response);
+        System.out.println("Message sent");
+    }
+
+    private void writeResponse(Socket socket, String response) {
         try {
             OutputStream outputFromServer = socket.getOutputStream();
             PrintWriter output = new PrintWriter(new OutputStreamWriter(outputFromServer, "UTF-8"), true);
@@ -43,16 +45,9 @@ public class ServerThread extends Thread {
         }
     }
 
-    public String convertInputToString() {
+    private BufferedReader readRequest() {
         socketGetInputStream();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String convertedInput = "";
-        try {
-            convertedInput = reader.readRequest(bufferedReader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return convertedInput;
+        return new BufferedReader(new InputStreamReader(inputStream));
     }
 
     private void socketGetInputStream() {

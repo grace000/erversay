@@ -4,67 +4,32 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
-import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class RequestRouterTest {
+        private RequestRouter router = new RequestRouter();
+        private MockRouteHandler mockRouteHandler = new MockRouteHandler();
 
-    @Test
-    public void itReturnsResponseForSimpleGet() {
-        String request = "GET /simple_get HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
+        @Test
+        public void itRoutesMockRequestToMockHandler() {
+                HashMap routes = new Routes().routes;
+                routes.put("/mock_handle", mockRouteHandler);
 
-        Response response = new RequestRouter().route(parsedRequest);
+                Request request = new Request("GET", "/mock_handle","");
 
-        assertEquals("200 OK", response.status);
-    }
+                router.route(request, routes);
+                assertTrue(mockRouteHandler.handleRequestWasCalled);
+        }
 
-    @Test
-    public void itReturnsResponseForNotFoundRequest() {
-        String request = "GET /not_found_resource HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
+        @Test
+        public void itDoesNotRouteInvalidRequestToMockHandler() {
+                HashMap routes = new Routes().routes;
+                routes.put("/mock_handle", mockRouteHandler);
 
-        Response response = new RequestRouter().route(parsedRequest);
+                Request request = new Request("GET", "/mock","");
 
-        assertEquals("404 Not Found", response.status);
-    }
-
-    @Test
-    public void itExcludesBodyForHeadRequest() {
-        String request = "HEAD /simple_get HTTP/1.1";
-        Request parsedRequest = new RequestParser().parse(request);
-
-        Response response = new RequestRouter().route(parsedRequest);
-
-        assertEquals("", response.body);
-    }
-
-    @Test
-    public void itIncludesBodyForPiggyRequest() {
-        String request = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
-
-        Response response = new RequestRouter().route(parsedRequest);
-
-        assertEquals("piggly wiggly", response.body);
-    }
-
-    @Test
-    public void itIncludesGetAsAllowedHeadersForOptionsRequest() {
-        String request = "OPTIONS /method_options HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
-
-        Response response = new RequestRouter().route(parsedRequest);
-
-        assertEquals("Allow: OPTIONS, GET, HEAD", response.headers);
-    }
-
-    @Test
-    public void itIncludesPutAndPostAsAllowedHeadersForOptionsTwoRequest() {
-        String request = "OPTIONS /method_options2 HTTP/1.1\r\nContent-Type:text/plain\r\nContent-Length: 0\r\n\r\n";
-        Request parsedRequest = new RequestParser().parse(request);
-
-        Response response = new RequestRouter().route(parsedRequest);
-
-        assertEquals("Allow: OPTIONS, GET, HEAD, PUT, POST", response.headers);
-    }
+                String routedRequest = router.route(request, routes);
+                assertFalse(mockRouteHandler.handleRequestWasCalled);
+        }
 }
