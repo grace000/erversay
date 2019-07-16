@@ -1,9 +1,7 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.RouteHandlers.RouteHandler;
 import org.junit.Test;
 
-import java.util.HashMap;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -12,11 +10,11 @@ import static org.junit.Assert.assertFalse;
 public class RequestRouterTest {
         private RequestRouter router = new RequestRouter();
         private MockRouteHandler mockRouteHandler = new MockRouteHandler();
-        private HashMap<String, RouteHandler> routes = new Routes().routes;
+        private Routes routes = new Routes();
 
         @Test
         public void itRoutesMockRequestToMockHandler() {
-                routes.put("/mock_handle", mockRouteHandler);
+                routes.routeMap.put("/mock_handle", mockRouteHandler);
 
                 Request request = new Request("GET", "/mock_handle","");
 
@@ -26,7 +24,7 @@ public class RequestRouterTest {
 
         @Test
         public void itDoesNotRouteInvalidRequestToMockHandler() {
-                routes.put("/mock_handle", mockRouteHandler);
+                routes.routeMap.put("/mock_handle", mockRouteHandler);
 
                 Request request = new Request("GET", "/mock","");
 

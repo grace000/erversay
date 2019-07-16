@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class ServerThread extends Thread {
     private Socket socket;
     private InputStream inputStream;
+    private Routes routes = new Routes();
 
     ServerThread(Socket socket) {
         this.socket = socket;
@@ -26,7 +27,6 @@ public class ServerThread extends Thread {
     }
 
     private void createResponse(Request request) {
-        HashMap<String, RouteHandler> routes = new Routes().routes;
         String response = new RequestRouter().route(request, routes);
         writeResponse(socket, response);
         System.out.println("Message sent");

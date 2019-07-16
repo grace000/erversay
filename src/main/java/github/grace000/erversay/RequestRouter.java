@@ -9,19 +9,18 @@ import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 public class RequestRouter {
     private ResponseBuilder responseBuilder = new ResponseBuilder();
 
-
-    public String route(Request request, HashMap routes) {
-        return handleRequest(request, routes);
+    public String route(Request request, Routes routes) {
+        return handleRequest(request, routes.routeMap);
     }
 
-    private String handleRequest(Request request, HashMap routes) {
+    private String handleRequest(Request request, HashMap routeMap) {
         String path = request.path;
 
-        if (!routes.containsKey(path)) {
+        if (!routeMap.containsKey(path)) {
             return handleUnknownPath();
         }
 
-        RouteHandler routeHandler = (RouteHandler) routes.get(path);
+        RouteHandler routeHandler = (RouteHandler) routeMap.get(path);
         return routeHandler.handle(request);
     }
 
