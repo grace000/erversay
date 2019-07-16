@@ -8,6 +8,8 @@ import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 import static github.grace000.erversay.Constants.StatusCodes.REDIRECT_STATUS;
 
 public class Redirect implements RouteHandler {
+    private ResponseBuilder responseBuilder = new ResponseBuilder();
+
     public enum AcceptedMethods {
         GET
     }
@@ -23,11 +25,11 @@ public class Redirect implements RouteHandler {
 
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
-            return new ResponseBuilder()
+            return responseBuilder
                     .withHeaders(REDIRECT_HEADER)
                     .withStatus(REDIRECT_STATUS)
                     .build();
-        } else return new ResponseBuilder()
+        } else return responseBuilder
                 .withStatus(NOT_FOUND_STATUS)
                 .build();
     }

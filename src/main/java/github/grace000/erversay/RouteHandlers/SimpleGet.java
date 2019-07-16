@@ -6,6 +6,8 @@ import github.grace000.erversay.ResponseBuilder;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
 public class SimpleGet implements RouteHandler {
+    private ResponseBuilder responseBuilder = new ResponseBuilder();
+
     public enum AcceptedMethods {
         GET, HEAD, OPTIONS
     }
@@ -21,8 +23,8 @@ public class SimpleGet implements RouteHandler {
 
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
-                return new ResponseBuilder().build();
-        } else return new ResponseBuilder()
+                return responseBuilder.build();
+        } else return responseBuilder
                 .withStatus(NOT_FOUND_STATUS)
                 .build();
     }

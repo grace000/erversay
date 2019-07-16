@@ -7,6 +7,9 @@ import java.util.HashMap;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
 public class RequestRouter {
+    private ResponseBuilder responseBuilder = new ResponseBuilder();
+
+
     public String route(Request request, HashMap routes) {
         return handleRequest(request, routes);
     }
@@ -23,6 +26,6 @@ public class RequestRouter {
     }
 
     private String handleUnknownPath() {
-        return new ResponseBuilder().withStatus(NOT_FOUND_STATUS).build();
+        return responseBuilder.withStatus(NOT_FOUND_STATUS).build();
     }
 }

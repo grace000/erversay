@@ -9,6 +9,8 @@ import static github.grace000.erversay.Constants.Headers.NOT_ALLOWED_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 
 public class NotAllowed implements RouteHandler {
+    private ResponseBuilder responseBuilder = new ResponseBuilder();
+
     private enum AllowedMethods {
         HEAD, OPTIONS
     }
@@ -24,9 +26,9 @@ public class NotAllowed implements RouteHandler {
 
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
-            return new ResponseBuilder()
+            return responseBuilder
                     .build();
-        } else return new ResponseBuilder()
+        } else return responseBuilder
                 .withHeaders(NOT_ALLOWED_HEADER)
                 .withStatus(NOT_ALLOWED_STATUS)
                 .build();

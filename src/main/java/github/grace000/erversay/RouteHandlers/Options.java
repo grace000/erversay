@@ -7,6 +7,8 @@ import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
 
 public class Options implements RouteHandler{
+    private ResponseBuilder responseBuilder = new ResponseBuilder();
+
     public enum AcceptedMethods {
         GET, HEAD, OPTIONS
     }
@@ -22,10 +24,10 @@ public class Options implements RouteHandler{
 
     public String handle(Request request) {
         if (isMethodAllowed(request.method)) {
-            return new ResponseBuilder()
+            return responseBuilder
                     .withHeaders(OPTIONS_HEADER)
                     .build();
-        } else return new ResponseBuilder()
+        } else return responseBuilder
                 .withStatus(NOT_FOUND_STATUS)
                 .build();
     }
