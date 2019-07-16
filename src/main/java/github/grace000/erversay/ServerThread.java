@@ -9,15 +9,14 @@ import java.util.HashMap;
 public class ServerThread extends Thread {
     private Socket socket;
     private InputStream inputStream;
-    private Request request;
 
-    public ServerThread(Socket socket) {
+    ServerThread(Socket socket) {
         this.socket = socket;
     }
 
     public void run() {
         try {
-            request = new RequestParser().parse(readRequest());
+            Request request = new RequestParser().parse(readRequest());
             createResponse(request);
             socket.close();
         } catch (IOException e) {
