@@ -13,4 +13,18 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
-mainClassName = 'Server'
+application {
+    mainClassName = 'Server'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'main/java/github/grace000/erversay/Server'
+        )
+    }
+    doFirst {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+
+}
