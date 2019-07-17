@@ -17,5 +17,5 @@ script:
   - ./gradlew check
   - ./gradlew test
   - ./gradlew clean build
-  - java -jar build/libs/httpserver.jar 5000
+  - java -jar build/libs/httpserver.jar 5000 &
   - ./acceptance-tests.sh
