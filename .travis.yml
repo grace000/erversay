@@ -16,3 +16,4 @@ cache:
 script:
   - ./gradlew check
   - ./gradlew test
+  - ./acceptance-tests.sh
