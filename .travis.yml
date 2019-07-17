@@ -16,5 +16,6 @@ cache:
 script:
   - ./gradlew check
   - ./gradlew test
-  - java -jar classes/artifacts/httpserver_jar/httpserver.jar 5000 &
+  - ./gradlew clean build
+  - java -jar build/libs/httpserver.jar 5000
   - ./acceptance-tests.sh
