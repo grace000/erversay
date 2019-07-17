@@ -9,15 +9,15 @@ import java.util.HashMap;
 public class ServerThread extends Thread {
     private Socket socket;
     private InputStream inputStream;
-    private Request request;
+    private Routes routes = new Routes();
 
-    public ServerThread(Socket socket) {
+    ServerThread(Socket socket) {
         this.socket = socket;
     }
 
     public void run() {
         try {
-            request = new RequestParser().parse(readRequest());
+            Request request = new RequestParser().parse(readRequest());
             createResponse(request);
             socket.close();
         } catch (IOException e) {
@@ -27,7 +27,6 @@ public class ServerThread extends Thread {
     }
 
     private void createResponse(Request request) {
-        HashMap<String, RouteHandler> routes = new Routes().routes;
         String response = new RequestRouter().route(request, routes);
         writeResponse(socket, response);
         System.out.println("Message sent");
