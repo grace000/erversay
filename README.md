@@ -7,7 +7,7 @@ An HTTP Server
 ## Setup
 
 #### Requirements
-- Java 12 (I followed the instructions provided from [Oracle](hhttps://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html))
+- Java 12 (I followed the instructions provided from [Oracle](https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html))
 - Gradle 5.4.1 (Instructions available [here](https://gradle.org/install/))
 
 ### Getting Started
