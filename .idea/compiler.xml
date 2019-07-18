@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="ervers.main" target="12" />
+      <module name="ervers.test" target="12" />
+      <module name="erversay.main" target="12" />
+      <module name="erversay.test" target="12" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
