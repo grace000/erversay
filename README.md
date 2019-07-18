@@ -41,7 +41,7 @@ $ git clone https://github.com/grace000/erversay.git
  3. OPTIONS request(/method_options and /method_options2)
  4. POST request(/echo_body), note: you'll need to add a body of text to your request
  
- Sending a GET request to /get_with_body will incur a response with the requests allowed on that path. Sending a request to any other path will invoke a not found response.
+ Sending a GET request to /get_with_body will incur a response with the methods allowed on that path. Sending a request to any other path will invoke a not found response.
  
  ### Running Tests
  In the terminal window, navigate to the project's root folder and run the following command:
