@@ -20,7 +20,7 @@ public class ServerThread extends Thread {
             Request request = new RequestParser().parse(readRequest());
             createResponse(request);
             socket.close();
-        } catch (IOException e) {
+        } catch (IOException | RequestParseException e) {
             System.out.println("Server exception: " + e.getMessage());
             e.printStackTrace();
         }

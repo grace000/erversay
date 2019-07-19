@@ -1,7 +1,6 @@
 package github.grace000.erversay;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.HashMap;
 
 import static github.grace000.erversay.Constants.HTTPLines.SP;
@@ -15,32 +14,42 @@ public class RequestParser {
     private HashMap<String, String> headers = new HashMap<>();
     private String body;
 
-    public Request parse(BufferedReader bufferedReader)  throws IOException {
+    public Request parse(BufferedReader bufferedReader) throws RequestParseException {
+        try {
+            parseRequestLine(bufferedReader);
+            parseHeaders(bufferedReader);
+            parseBody(bufferedReader);
 
-        parseRequestLine(bufferedReader);
-        parseHeaders(bufferedReader);
-        parseBody(bufferedReader);
-
-        return new Request(method, path, body);
+            return new Request(method, path, body);
+        } catch (Exception e) {
+            throw new RequestParseException("COULD NOT PARSE REQUEST");
+        }
     }
 
-    private void parseRequestLine(BufferedReader request)  throws IOException {
-        String line = request.readLine();
+    private void parseRequestLine(BufferedReader request)  throws RequestParseException {
+        try {
+            String line = request.readLine();
+            if (line == null) return;
 
-        if (line == null) return;
+            String[] requestLine = line.split(SP);
+            if (requestLine.length != 3) return;
 
-        String[] requestLine = line.split(SP);
-        if (requestLine.length != 3) return;
-
-        method = requestLine[methodIndex];
-        path = requestLine[pathIndex];
+            method = requestLine[methodIndex];
+            path = requestLine[pathIndex];
+        } catch (Exception e) {
+            throw new RequestParseException("COULD NOT PARSE REQUEST LINE");
+        }
     }
 
-    private void parseHeaders(BufferedReader request) throws IOException {
+    private void parseHeaders(BufferedReader request) throws RequestParseException {
         String line;
-        while ((line = request.readLine()) != null) {
-            if (line.equals("")) break;
-            parseHeader(line);
+        try {
+            while ((line = request.readLine()) != null) {
+                if (line.equals("")) break;
+                parseHeader(line);
+            }
+        } catch (Exception e) {
+            throw new RequestParseException("COULD NOT PARSE HEADERS");
         }
     }
 
@@ -53,18 +62,22 @@ public class RequestParser {
         }
     }
 
-    private void parseBody(BufferedReader request) throws IOException {
+    private void parseBody(BufferedReader request) throws RequestParseException {
         StringBuilder bodyBuilder = new StringBuilder();
         String messageLength = headers.get(CONTENT_LENGTH);
 
         int length;
 
-        if (messageLength != null) {
-            length = Integer.parseInt(messageLength);
-            for (int i = 0; i < length; i++) {
-                bodyBuilder.append((char) request.read());
+        try {
+            if (messageLength != null) {
+                length = Integer.parseInt(messageLength);
+                for (int i = 0; i < length; i++) {
+                    bodyBuilder.append((char) request.read());
+                }
             }
+            body = bodyBuilder.toString();
+        } catch (Exception e) {
+            throw new RequestParseException("COULD NOT PARSE BODY");
         }
-        body = bodyBuilder.toString();
     }
 }
