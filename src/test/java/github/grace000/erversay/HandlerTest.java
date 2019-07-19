@@ -27,7 +27,7 @@ public class HandlerTest {
         Request request = new Request("POST", "/simple_get", "");
         String response = simpleGetHandler.handle(request);
 
-        assertEquals(response, "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
     }
 
     @Test
@@ -43,7 +43,7 @@ public class HandlerTest {
         Request request = new Request("PUT", "/method_options", " ");
         String response = optionsHandler.handle(request);
 
-        assertEquals(response, "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
     }
 
     @Test
@@ -55,19 +55,19 @@ public class HandlerTest {
     }
 
     @Test
-    public void optionsTwoHandlerDoesNotBuildNotFoundForOptionsMethod() {
+    public void optionsTwoHandlerDoesNotBuildNotAllowedForOptionsMethod() {
         Request request = new Request("OPTIONS", "/method_options2", " ");
         String response = optionsTwoHandler.handle(request);
 
-        assertNotSame(response, "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+        assertNotSame(response, "HTTP/1.1 405 Method Not Allowed\r\nContent-Length: 0\r\n\r\n");
     }
 
     @Test
-    public void optionsTwoHandlerBuildsNotFoundForUnknownMethod() {
+    public void optionsTwoHandlerBuildsNotAllowedForUnknownMethod() {
         Request request = new Request("DELETE", "/method_options2", " ");
         String response = optionsTwoHandler.handle(request);
 
-        assertEquals(response, "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\nAllow: OPTIONS, GET, HEAD, PUT, POST\r\nContent-Length: 0\r\n\r\n");
     }
 
     @Test
@@ -99,6 +99,6 @@ public class HandlerTest {
         Request request = new Request("GET", "/redirect", "");
         String response = redirectHandler.handle(request);
 
-        assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: http://0.0.0.0:5000/simple_get\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:5000/simple_get\r\nContent-Length: 0\r\n\r\n");
     }
 }

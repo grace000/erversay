@@ -3,7 +3,8 @@ package github.grace000.erversay.RouteHandlers;
 import github.grace000.erversay.Request;
 import github.grace000.erversay.ResponseBuilder;
 
-import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
+import static github.grace000.erversay.Constants.Headers.NOT_ALLOWED_HEADER;
+import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
 
 public class Post implements RouteHandler {
     private ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -19,7 +20,8 @@ public class Post implements RouteHandler {
                     .withContentLength(request.body.length(), request.body)
                     .build();
         } else return responseBuilder
-                .withStatus(NOT_FOUND_STATUS)
+                .withHeaders(NOT_ALLOWED_HEADER)
+                .withStatus(NOT_ALLOWED_STATUS)
                 .build();
     }
 }

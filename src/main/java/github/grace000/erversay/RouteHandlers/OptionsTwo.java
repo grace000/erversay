@@ -5,7 +5,7 @@ import github.grace000.erversay.ResponseBuilder;
 
 
 import static github.grace000.erversay.Constants.Headers.OPTIONS_TWO_HEADER;
-import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
+import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
 
 public class OptionsTwo implements RouteHandler {
     private ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -29,7 +29,8 @@ public class OptionsTwo implements RouteHandler {
                     .withHeaders(OPTIONS_TWO_HEADER)
                     .build();
         } else return responseBuilder
-                .withStatus(NOT_FOUND_STATUS)
+                .withHeaders(OPTIONS_TWO_HEADER)
+                .withStatus(NOT_ALLOWED_STATUS)
                 .build();
     }
 }

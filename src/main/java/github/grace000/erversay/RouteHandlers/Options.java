@@ -4,7 +4,7 @@ import github.grace000.erversay.Request;
 import github.grace000.erversay.ResponseBuilder;
 
 import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
-import static github.grace000.erversay.Constants.StatusCodes.NOT_FOUND_STATUS;
+import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
 
 public class Options implements RouteHandler{
     private ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -28,7 +28,8 @@ public class Options implements RouteHandler{
                     .withHeaders(OPTIONS_HEADER)
                     .build();
         } else return responseBuilder
-                .withStatus(NOT_FOUND_STATUS)
+                .withHeaders(OPTIONS_HEADER)
+                .withStatus(NOT_ALLOWED_STATUS)
                 .build();
     }
 }
