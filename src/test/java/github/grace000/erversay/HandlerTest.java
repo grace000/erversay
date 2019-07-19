@@ -99,6 +99,6 @@ public class HandlerTest {
         Request request = new Request("GET", "/redirect", "");
         String response = redirectHandler.handle(request);
 
-        assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: https://erversay.herokuapp.com/simple_get\r\nContent-Length: 0\r\n\r\n");
+        assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: http://0.0.0.0:5000/simple_get\r\nContent-Length: 0\r\n\r\n");
     }
 }
