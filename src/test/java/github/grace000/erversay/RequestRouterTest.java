@@ -37,7 +37,7 @@ public class RequestRouterTest {
                 Request request = new Request("GET", "/simple_get","");
 
                 String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\ncontent-length: 0\r\n\r\n");
+                assertEquals(response, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
         }
 
         @Test
@@ -45,7 +45,7 @@ public class RequestRouterTest {
                 Request request = new Request("OPTIONS", "/method_options","");
 
                 String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\ncontent-length: 0\r\n\r\n");
+                assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
         }
 
         @Test
@@ -53,7 +53,7 @@ public class RequestRouterTest {
                 Request request = new Request("OPTIONS", "/method_options2","");
 
                 String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD, PUT, POST\r\ncontent-length: 0\r\n\r\n");
+                assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD, PUT, POST\r\nContent-Length: 0\r\n\r\n");
         }
 
         @Test
@@ -61,7 +61,7 @@ public class RequestRouterTest {
                 Request request = new Request("POST", "/echo_body","some body");
 
                 String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\ncontent-length: 9\r\n\r\nsome body");
+                assertEquals(response, "HTTP/1.1 200 OK\r\nContent-Length: 9\r\n\r\nsome body");
         }
 
         @Test
@@ -69,7 +69,7 @@ public class RequestRouterTest {
                 Request request = new Request("GET", "/get_with_body","some body");
 
                 String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\nAllow: HEAD, OPTIONS\r\ncontent-length: 0\r\n\r\n");
+                assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\nAllow: HEAD, OPTIONS\r\nContent-Length: 0\r\n\r\n");
         }
 
         @Test
@@ -77,7 +77,7 @@ public class RequestRouterTest {
                 Request request = new Request("GET", "/not_found_resource","some body");
 
                 String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 404 Not Found\r\ncontent-length: 0\r\n\r\n");
+                assertEquals(response, "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
         }
 
         @Test
@@ -85,6 +85,6 @@ public class RequestRouterTest {
                 Request request = new Request("GET", "/redirect","");
 
                 String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:5000/simple_get\r\ncontent-length: 0\r\n\r\n");
+                assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: https://erversay.herokuapp.com/simple_get\r\nContent-Length: 0\r\n\r\n");
         }
 }

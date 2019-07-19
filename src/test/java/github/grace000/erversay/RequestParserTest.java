@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class RequestParserTest {
-    private String requestWithBody = "GET /piggly HTTP/1.1\r\nContent-Type:text/plain\r\ncontent-length: 6\r\n\r\npiggly";
+    private String requestWithBody = "GET /piggly HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: 6\r\n\r\npiggly";
     private RequestParser parser;
     private BufferedReader bufferedReader;
 
@@ -55,7 +55,7 @@ public class RequestParserTest {
     @Test
     public void itCreatesRequestObjectForPostRequest() throws IOException {
         parser = new RequestParser();
-        String postRequest = "POST /echo_body HTTP/1.1\r\nContent-Type:text/plain\r\ncontent-length: 9\r\n\r\nsome data";
+        String postRequest = "POST /echo_body HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: 9\r\n\r\nsome data";
         bufferedReader = reader(getStream(postRequest));
         Request request = parser.parse(bufferedReader);
 
