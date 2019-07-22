@@ -1,6 +1,7 @@
 package github.grace000.erversay.RouteHandlers;
 
 import github.grace000.erversay.Request.Request;
+import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.Response.ResponseBuilder;
 
 import static github.grace000.erversay.Constants.Headers.REDIRECT_HEADER;
@@ -22,7 +23,7 @@ public class Redirect implements RouteHandler {
         return false;
     }
 
-    public String handle(Request request) {
+    public Response handle(Request request) {
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withHeaders(REDIRECT_HEADER)

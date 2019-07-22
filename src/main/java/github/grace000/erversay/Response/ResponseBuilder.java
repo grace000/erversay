@@ -11,7 +11,7 @@ public class ResponseBuilder {
     private String headers = "";
 
     public ResponseBuilder withStatus(String status){
-        this.status = status;
+        this.status = DEFAULT_VERSION + SP + status;
         return this;
     }
 
@@ -31,12 +31,8 @@ public class ResponseBuilder {
         return this;
     }
 
-    public String build(){
-        return header() + contentLength() + DOUBLE_LINE_FEED + this.body;
-    }
-
-    private String header(){
-        return DEFAULT_VERSION + SP + this.status + this.headers + CRLF;
+    public Response build(){
+        return new Response(this.status, this.body, this.contentLength, this.headers);
     }
 
     private String contentLength() {

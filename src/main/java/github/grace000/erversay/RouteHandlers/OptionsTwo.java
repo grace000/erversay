@@ -1,6 +1,7 @@
 package github.grace000.erversay.RouteHandlers;
 
 import github.grace000.erversay.Request.Request;
+import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.Response.ResponseBuilder;
 
 
@@ -23,7 +24,7 @@ public class OptionsTwo implements RouteHandler {
         return false;
     }
 
-    public String handle(Request request) {
+    public Response handle(Request request) {
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withHeaders(OPTIONS_TWO_HEADER)
