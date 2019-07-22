@@ -1,4 +1,4 @@
-package github.grace000.erversay;
+package github.grace000.erversay.Response;
 
 public class Response {
     public String status;

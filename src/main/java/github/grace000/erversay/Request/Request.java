@@ -1,4 +1,4 @@
-package github.grace000.erversay;
+package github.grace000.erversay.Request;
 
 public class Request {
     public String method;

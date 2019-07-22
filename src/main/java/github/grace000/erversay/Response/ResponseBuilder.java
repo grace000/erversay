@@ -1,4 +1,4 @@
-package github.grace000.erversay;
+package github.grace000.erversay.Response;
 
 import static github.grace000.erversay.Constants.HTTPLines.*;
 import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;

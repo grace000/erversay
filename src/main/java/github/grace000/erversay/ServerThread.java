@@ -1,15 +1,23 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.RouteHandlers.RouteHandler;
+import github.grace000.erversay.Request.Request;
+import github.grace000.erversay.Request.RequestParser;
+import github.grace000.erversay.Request.RequestReader;
+import github.grace000.erversay.Request.RequestRouter;
+import github.grace000.erversay.Response.Response;
+import github.grace000.erversay.Response.ResponseWriter;
 
 import java.io.*;
 import java.net.*;
-import java.util.HashMap;
 
 public class ServerThread extends Thread {
     private Socket socket;
     private InputStream inputStream;
-    private Routes routes = new Routes();
+    private OutputStream outputStream;
+    private RequestParser requestParser = new RequestParser();
+    private RequestRouter requestRouter = new RequestRouter();
+    private RequestReader requestReader = new RequestReader();
+    private ResponseWriter responseWriter = new ResponseWriter();
 
     ServerThread(Socket socket) {
         this.socket = socket;
@@ -17,8 +25,13 @@ public class ServerThread extends Thread {
 
     public void run() {
         try {
-            Request request = new RequestParser().parse(readRequest());
-            createResponse(request);
+            socketGetInputStream();
+            BufferedReader input = requestReader.read(inputStream);
+            Request request = requestParser.parse(input);
+            Response response = requestRouter.route(request);
+            socketGetOutputStream();
+            responseWriter.write(outputStream, response);
+            System.out.println("Message sent");
             socket.close();
         } catch (IOException e) {
             System.out.println("Server exception: " + e.getMessage());
@@ -26,32 +39,17 @@ public class ServerThread extends Thread {
         }
     }
 
-    private void createResponse(Request request) {
-        String response = new RequestRouter().route(request, routes);
-        writeResponse(socket, response);
-        System.out.println("Message sent");
-    }
-
-    private void writeResponse(Socket socket, String response) {
+    private void socketGetInputStream() {
         try {
-            OutputStream outputFromServer = socket.getOutputStream();
-            PrintWriter output = new PrintWriter(new OutputStreamWriter(outputFromServer, "UTF-8"), true);
-            output.println(response);
-            output.flush();
+            inputStream = socket.getInputStream();
         } catch (IOException e) {
-            System.out.println("WRITE RESPONSE ERROR");
             e.printStackTrace();
         }
     }
 
-    private BufferedReader readRequest() {
-        socketGetInputStream();
-        return new BufferedReader(new InputStreamReader(inputStream));
-    }
-
-    private void socketGetInputStream() {
+    private void socketGetOutputStream() {
         try {
-            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }

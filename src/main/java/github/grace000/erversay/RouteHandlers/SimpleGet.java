@@ -1,7 +1,7 @@
 package github.grace000.erversay.RouteHandlers;
 
-import github.grace000.erversay.Request;
-import github.grace000.erversay.ResponseBuilder;
+import github.grace000.erversay.Request.Request;
+import github.grace000.erversay.Response.ResponseBuilder;
 
 import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;

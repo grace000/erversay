@@ -1,6 +1,7 @@
 package github.grace000.erversay;
 
 import github.grace000.erversay.Constants.Headers;
+import github.grace000.erversay.Response.ResponseBuilder;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

@@ -13,5 +13,6 @@ public class Routes {
         routeMap.put("/echo_body", new Post());
         routeMap.put("/get_with_body", new NotAllowed());
         routeMap.put("/redirect", new Redirect());
+        routeMap.put("/kitty_image", new KittyImage());
     }
 }
