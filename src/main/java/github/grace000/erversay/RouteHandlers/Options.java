@@ -6,6 +6,7 @@ import github.grace000.erversay.Response.ResponseBuilder;
 
 import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
+import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 
 public class Options implements RouteHandler{
     private ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -27,6 +28,7 @@ public class Options implements RouteHandler{
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withHeaders(OPTIONS_HEADER)
+                    .withStatus(OK_STATUS)
                     .build();
         } else return responseBuilder
                 .withHeaders(OPTIONS_HEADER)

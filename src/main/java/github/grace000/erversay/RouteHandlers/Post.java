@@ -15,6 +15,7 @@ public class Post implements RouteHandler {
     }
 
     public Response handle(Request request) {
+        System.out.println(request.body);
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withBody(request.body)

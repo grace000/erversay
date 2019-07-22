@@ -5,16 +5,19 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import static github.grace000.erversay.Constants.HTTPLines.DOUBLE_LINE_FEED;
+import static github.grace000.erversay.Constants.HTTPLines.*;
 
 public class ResponseWriter {
     public void write(OutputStream outputStream, Response response) {
         try {
             PrintWriter output = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
-            output.println(response.status);
+            System.out.println("Here is your header: " + response.headers);
+            System.out.println("Here is your body: " + response.body);
+            System.out.println("Here is your status!: " + response.status);
+            output.println(DEFAULT_VERSION + SP + response.status);
             output.println(response.headers);
-            output.println(DOUBLE_LINE_FEED);
-            output.println(response.body);
+            output.println("Content-Length: " + response.contentLength);
+            output.println(CRLF + response.body);
             output.flush();
         } catch (IOException e) {
             System.out.println("WRITE RESPONSE ERROR");

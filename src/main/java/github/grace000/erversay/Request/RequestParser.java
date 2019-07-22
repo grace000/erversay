@@ -28,7 +28,7 @@ public class RequestParser {
 
     private void parseRequestLine(BufferedReader request)  throws IOException {
         String line = request.readLine();
-
+//        System.out.println("Here is your line: " + line);
         if (line == null) return;
 
         String[] requestLine = line.split(SP);
@@ -52,6 +52,7 @@ public class RequestParser {
             String field = headerPair[0];
             String value = headerPair[1];
             headers.put(field, value);
+//            System.out.println(headers);
         }
     }
 
@@ -68,5 +69,6 @@ public class RequestParser {
             }
         }
         body = bodyBuilder.toString();
+//        System.out.println("here is your body from parser: " + body);
     }
 }
