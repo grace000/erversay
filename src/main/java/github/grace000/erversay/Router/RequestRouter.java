@@ -15,6 +15,10 @@ public class RequestRouter {
         return handleRequest(request, routes);
     }
 
+    public Response route(Request request, Routes routes) {
+        return handleRequest(request, routes);
+    }
+
     private Response handleRequest(Request request, Routes routes) {
         String path = request.path;
 

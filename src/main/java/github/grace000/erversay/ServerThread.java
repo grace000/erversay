@@ -31,7 +31,6 @@ public class ServerThread extends Thread {
             Response response = requestRouter.route(request);
             socketGetOutputStream();
             responseWriter.write(outputStream, response);
-            System.out.println("Message sent");
             socket.close();
         } catch (IOException e) {
             System.out.println("Server exception: " + e.getMessage());

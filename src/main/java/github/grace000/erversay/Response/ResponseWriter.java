@@ -18,6 +18,7 @@ public class ResponseWriter {
             output.println(response.headers);
             output.println("Content-Length: " + response.contentLength);
             output.println(CRLF + response.body);
+            System.out.println("WRITER: MESSAGE SENT");
             output.flush();
         } catch (IOException e) {
             System.out.println("WRITE RESPONSE ERROR");

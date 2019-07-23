@@ -1,7 +1,5 @@
 package github.grace000.erversay.Response;
 
-import static github.grace000.erversay.Constants.HTTPLines.*;
-import static github.grace000.erversay.Constants.Headers.CONTENT_LENGTH;
 import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 
 public class ResponseBuilder {
@@ -33,9 +31,5 @@ public class ResponseBuilder {
 
     public Response build(){
         return new Response(this.status, this.body, this.contentLength, this.headers);
-    }
-
-    private String contentLength() {
-        return CONTENT_LENGTH + COLON + SP + this.contentLength;
     }
 }

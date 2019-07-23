@@ -1,11 +1,18 @@
 package github.grace000.erversay;
 
 import github.grace000.erversay.Request.Request;
+import github.grace000.erversay.Response.Response;
+import github.grace000.erversay.RouteHandlers.RouteHandler;
 import github.grace000.erversay.Router.RequestRouter;
 import github.grace000.erversay.Router.Routes;
 import org.junit.Test;
 
 
+import java.util.HashMap;
+
+import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
+import static github.grace000.erversay.Constants.Headers.*;
+import static github.grace000.erversay.Constants.StatusCodes.*;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -15,11 +22,17 @@ public class RequestRouterTest {
         private MockRouteHandler mockRouteHandler = new MockRouteHandler();
         private Routes routes = new Routes();
 
+        private HashMap<String, String> setHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                return headers;
+        }
+
         @Test
         public void itRoutesMockRequestToMockHandler() {
                 routes.routeMap.put("/mock_handle", mockRouteHandler);
 
-                Request request = new Request("GET", "/mock_handle","");
+                Request request = new Request("GET", "/mock_handle", setHeaders(), EMPTY_BODY);
 
                 router.route(request, routes);
                 assertTrue(mockRouteHandler.handleRequestWasCalled);
@@ -27,67 +40,109 @@ public class RequestRouterTest {
 
         @Test
         public void itDoesNotRouteInvalidRequestToMockHandler() {
-                routes.routeMap.put("/mock_handle", mockRouteHandler);
+                Request request = new Request("GET", "/mock", setHeaders(), EMPTY_BODY);
 
-                Request request = new Request("GET", "/mock","");
-
-                router.route(request, routes);
+                router.route(request);
                 assertFalse(mockRouteHandler.handleRequestWasCalled);
         }
 
         @Test
         public void itRoutesSimpleGetRequest() {
-                Request request = new Request("GET", "/simple_get","");
+                Request request = new Request("GET", "/simple_get", setHeaders(), EMPTY_BODY);
 
-                String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
+                Response response = router.route(request);
+
+                int emptyContent = 0;
+                String emptyHeaders = "";
+
+                assertEquals(OK_STATUS, response.status);
+                assertEquals(EMPTY_BODY, response.body);
+                assertEquals(emptyContent, response.contentLength);
+                assertEquals(emptyHeaders, response.headers);
         }
 
         @Test
         public void itRoutesOptionsRequest() {
-                Request request = new Request("OPTIONS", "/method_options","");
+                Request request = new Request("OPTIONS", "/method_options", setHeaders(), EMPTY_BODY);
 
-                String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
+                Response response = router.route(request);
+
+                int emptyContent = 0;
+
+                assertEquals(OK_STATUS, response.status);
+                assertEquals(EMPTY_BODY, response.body);
+                assertEquals(emptyContent, response.contentLength);
+                assertEquals(OPTIONS_HEADER, response.headers);
         }
 
         @Test
         public void itRoutesOptionsTwoRequest() {
-                Request request = new Request("OPTIONS", "/method_options2","");
+                Request request = new Request("OPTIONS", "/method_options2", setHeaders(), EMPTY_BODY);
 
-                String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD, PUT, POST\r\nContent-Length: 0\r\n\r\n");
+                Response response = router.route(request);
+
+                int emptyContent = 0;
+
+                assertEquals(OK_STATUS, response.status);
+                assertEquals(EMPTY_BODY, response.body);
+                assertEquals(emptyContent, response.contentLength);
+                assertEquals(OPTIONS_TWO_HEADER, response.headers);
         }
 
         @Test
         public void itRoutesPostRequest() {
-                Request request = new Request("POST", "/echo_body","some body");
+                Request request = new Request("POST", "/echo_body", setHeaders(),"some body");
 
-                String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 200 OK\r\nContent-Length: 9\r\n\r\nsome body");
+                Response response = router.route(request);
+
+                int contentLength = 9;
+                String expectedBody = "some body";
+                String emptyHeaders = "";
+
+                assertEquals(OK_STATUS, response.status);
+                assertEquals(expectedBody, response.body);
+                assertEquals(contentLength, response.contentLength);
+                assertEquals(emptyHeaders, response.headers);
         }
 
         @Test
         public void itRoutesNotAllowedRequest() {
-                Request request = new Request("GET", "/get_with_body","some body");
+                Request request = new Request("GET", "/get_with_body", setHeaders(), "some body");
 
-                String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 405 Method Not Allowed\r\nAllow: HEAD, OPTIONS\r\nContent-Length: 0\r\n\r\n");
+                Response response = router.route(request);
+
+                int emptyContent = 0;
+
+                assertEquals(NOT_ALLOWED_STATUS, response.status);
+                assertEquals(EMPTY_BODY, response.body);
+                assertEquals(emptyContent, response.contentLength);
+                assertEquals(NOT_ALLOWED_HEADER, response.headers);
         }
 
         @Test
         public void itRoutesNotFoundRequest() {
-                Request request = new Request("GET", "/not_found_resource","some body");
+                Request request = new Request("GET", "/not_found_resource", setHeaders(), "some body");
 
-                String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
+                Response response = router.route(request);
+
+                int emptyContent = 0;
+
+                assertEquals(NOT_FOUND_STATUS, response.status);
+                assertEquals(EMPTY_BODY, response.body);
+                assertEquals(emptyContent, response.contentLength);
         }
 
         @Test
         public void itRoutesMovedRequest() {
-                Request request = new Request("GET", "/redirect","");
+                Request request = new Request("GET", "/redirect", setHeaders(), EMPTY_BODY);
 
-                String response = router.route(request, routes);
-                assertEquals(response, "HTTP/1.1 301 Moved Permanently\r\nLocation: http://127.0.0.1:5000/simple_get\r\nContent-Length: 0\r\n\r\n");
+                Response response = router.route(request);
+
+                int emptyContent = 0;
+
+                assertEquals(REDIRECT_STATUS, response.status);
+                assertEquals(EMPTY_BODY, response.body);
+                assertEquals(emptyContent, response.contentLength);
+                assertEquals(REDIRECT_HEADER, response.headers);
         }
 }
