@@ -27,7 +27,8 @@ public class NotAllowed implements RouteHandler {
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .build();
-        } else return responseBuilder
+        }
+        else return responseBuilder
                 .withHeaders(NOT_ALLOWED_HEADER)
                 .withStatus(NOT_ALLOWED_STATUS)
                 .build();

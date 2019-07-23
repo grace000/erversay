@@ -29,7 +29,8 @@ public class Redirect implements RouteHandler {
                     .withHeaders(REDIRECT_HEADER)
                     .withStatus(REDIRECT_STATUS)
                     .build();
-        } else return responseBuilder
+        }
+        else return responseBuilder
                 .withStatus(NOT_FOUND_STATUS)
                 .build();
     }

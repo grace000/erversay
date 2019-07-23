@@ -4,7 +4,7 @@ import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 
 public class ResponseBuilder {
     private String status = OK_STATUS;
-    private String body = "";
+    private byte[] body = new byte[0];
     private int contentLength = 0;
     private String headers = "";
 
@@ -14,12 +14,17 @@ public class ResponseBuilder {
     }
 
     public ResponseBuilder withBody(String body) {
+        this.body = body.getBytes();
+        return this;
+    }
+
+    public ResponseBuilder withBody(byte[] body) {
         this.body = body;
         return this;
     }
 
-    public ResponseBuilder withContentLength(int contentLength, String body) {
-        contentLength = body.getBytes().length;
+    public ResponseBuilder withContentLength(int contentLength, byte[] body) {
+        contentLength = body.length;
         this.contentLength = contentLength;
         return this;
     }

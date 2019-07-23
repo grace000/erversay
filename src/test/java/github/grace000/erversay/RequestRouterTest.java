@@ -34,6 +34,7 @@ public class RequestRouterTest {
 
                 Request request = new Request("GET", "/mock_handle", setHeaders(), EMPTY_BODY);
 
+                System.out.println(routes.routeMap);
                 router.route(request, routes);
                 assertTrue(mockRouteHandler.handleRequestWasCalled);
         }

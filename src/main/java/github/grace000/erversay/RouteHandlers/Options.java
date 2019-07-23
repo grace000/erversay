@@ -30,7 +30,8 @@ public class Options implements RouteHandler{
                     .withHeaders(OPTIONS_HEADER)
                     .withStatus(OK_STATUS)
                     .build();
-        } else return responseBuilder
+        }
+        else return responseBuilder
                 .withHeaders(OPTIONS_HEADER)
                 .withStatus(NOT_ALLOWED_STATUS)
                 .build();

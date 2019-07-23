@@ -3,11 +3,14 @@ package github.grace000.erversay;
 import github.grace000.erversay.Request.Request;
 import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.RouteHandlers.*;
-import junit.framework.Assert;
+
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.Objects;
 
 import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.*;
@@ -21,6 +24,7 @@ public class HandlerTest {
     private RouteHandler postHandler = new Post();
     private RouteHandler notAllowedHandler = new NotAllowed();
     private RouteHandler redirectHandler = new Redirect();
+    private RouteHandler kittyImageHandler = new KittyImage();
 
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
@@ -156,7 +160,7 @@ public class HandlerTest {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/x-www-form-urlencoded");
 
-        Request request = new Request("GET", "/get_with_body", headers,EMPTY_BODY);
+        Request request = new Request("GET", "/get_with_body", headers, EMPTY_BODY);
         Response response = notAllowedHandler.handle(request);
 
         int emptyContent = 0;
@@ -172,7 +176,7 @@ public class HandlerTest {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/x-www-form-urlencoded");
 
-        Request request = new Request("HEAD", "/get_with_body", headers,EMPTY_BODY);
+        Request request = new Request("HEAD", "/get_with_body", headers, EMPTY_BODY);
         Response response = notAllowedHandler.handle(request);
 
         int emptyContent = 0;
@@ -189,7 +193,7 @@ public class HandlerTest {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/x-www-form-urlencoded");
 
-        Request request = new Request("GET", "/redirect", headers,"");
+        Request request = new Request("GET", "/redirect", headers, EMPTY_BODY);
         Response response = redirectHandler.handle(request);
 
         int emptyContent = 0;
@@ -198,5 +202,26 @@ public class HandlerTest {
         assertEquals(EMPTY_BODY, response.body);
         assertEquals(emptyContent, response.contentLength);
         assertEquals(REDIRECT_HEADER, response.headers);
+    }
+
+    @Test
+    public void kittyImageHandlerBuildsResponseForImageRequest() throws IOException {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Request request = new Request("GET", "/kitty_image", headers, EMPTY_BODY);
+        Response response = kittyImageHandler.handle(request);
+
+        File file = new File("public/tuxedo.jpg");
+        Path path = file.toPath();
+        byte[] kittyBody = Files.readAllBytes(path);
+
+        int kittyContent = 852690;
+
+
+        assertEquals(OK_STATUS, response.status);
+//        assertEquals(kittyBody, response.body);
+        assertEquals(kittyContent, response.contentLength);
+        assertEquals(JPEG_IMAGE_HEADER, response.headers);
     }
 }

@@ -29,7 +29,8 @@ public class OptionsTwo implements RouteHandler {
             return responseBuilder
                     .withHeaders(OPTIONS_TWO_HEADER)
                     .build();
-        } else return responseBuilder
+        }
+        else return responseBuilder
                 .withHeaders(OPTIONS_TWO_HEADER)
                 .withStatus(NOT_ALLOWED_STATUS)
                 .build();
