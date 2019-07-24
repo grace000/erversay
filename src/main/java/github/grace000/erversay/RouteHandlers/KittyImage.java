@@ -49,7 +49,7 @@ public class KittyImage implements RouteHandler {
                 .build();
     }
 
-    public byte[] getFilePath() throws IOException {
+    private byte[] getFilePath() throws IOException {
         File file = new File("public/tuxedo.jpg");
         Path path = file.toPath();
         return Files.readAllBytes(path);

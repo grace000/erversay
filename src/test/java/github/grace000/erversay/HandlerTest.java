@@ -22,6 +22,7 @@ public class HandlerTest {
     private RouteHandler notAllowedHandler = new NotAllowed();
     private RouteHandler redirectHandler = new Redirect();
     private RouteHandler kittyImageHandler = new KittyImage();
+    private RouteHandler putHandler = new Put();
 
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
@@ -211,5 +212,23 @@ public class HandlerTest {
 
         assertEquals(OK_STATUS, response.status);
         assertEquals(JPEG_IMAGE_HEADER, response.headers);
+    }
+
+    @Test
+    public void putRequestHandlerBuildsResponseForPutRequest() {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Request request = new Request("PUT", "/update_body", headers, "update");
+        Response response = putHandler.handle(request);
+
+        String expectedBody = "update";
+        int expectedContent = 6;
+        String expectedHeaders = "Content-Length: 4";
+
+        assertEquals(OK_STATUS, response.status);
+        assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
+        assertEquals(expectedContent, response.contentLength);
+        assertEquals(expectedHeaders, response.headers);
     }
 }
