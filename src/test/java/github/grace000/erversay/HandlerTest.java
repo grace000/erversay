@@ -6,11 +6,8 @@ import github.grace000.erversay.RouteHandlers.*;
 
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Objects;
 
 import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.*;
@@ -35,10 +32,10 @@ public class HandlerTest {
         Response response = simpleGetHandler.handle(request);
 
         int emptyContent = 0;
-        String emptyHeaders = "";
+        String emptyHeaders = "Content-Length: 0";
 
         assertEquals(OK_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(emptyHeaders, response.headers);
     }
@@ -54,7 +51,7 @@ public class HandlerTest {
         int emptyContent = 0;
 
         assertEquals(NOT_ALLOWED_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_HEADER, response.headers);
     }
@@ -70,7 +67,7 @@ public class HandlerTest {
         int emptyContent = 0;
 
         assertEquals(OK_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_HEADER, response.headers);
     }
@@ -86,7 +83,7 @@ public class HandlerTest {
         int emptyContent = 0;
 
         assertEquals(NOT_ALLOWED_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_HEADER, response.headers);
     }
@@ -102,7 +99,7 @@ public class HandlerTest {
         int emptyContent = 0;
 
         assertEquals(OK_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_TWO_HEADER, response.headers);
     }
@@ -112,7 +109,7 @@ public class HandlerTest {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/x-www-form-urlencoded");
 
-        Request request = new Request("OPTIONS", "/method_options2", headers,EMPTY_BODY);
+        Request request = new Request("OPTIONS", "/method_options2", headers, EMPTY_BODY);
         Response response = optionsTwoHandler.handle(request);
 
         String emptyHeaders = "";
@@ -126,13 +123,13 @@ public class HandlerTest {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/x-www-form-urlencoded");
 
-        Request request = new Request("DELETE", "/method_options2", headers,EMPTY_BODY);
+        Request request = new Request("DELETE", "/method_options2", headers, EMPTY_BODY);
         Response response = optionsTwoHandler.handle(request);
 
         int emptyContent = 0;
 
         assertEquals(NOT_ALLOWED_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_TWO_HEADER, response.headers);
     }
@@ -147,12 +144,12 @@ public class HandlerTest {
 
         int contentLength = 4;
         String expectedBody = "body";
-        String emptyHeaders = "";
+        String expectedHeaders = "Content-Length: 4";
 
         assertEquals(OK_STATUS, response.status);
-        assertEquals(expectedBody, response.body);
+        assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
         assertEquals(contentLength, response.contentLength);
-        assertEquals(emptyHeaders, response.headers);
+        assertEquals(expectedHeaders, response.headers);
     }
 
     @Test
@@ -166,7 +163,7 @@ public class HandlerTest {
         int emptyContent = 0;
 
         assertEquals(NOT_ALLOWED_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(NOT_ALLOWED_HEADER, response.headers);
     }
@@ -183,7 +180,7 @@ public class HandlerTest {
         String emptyHeaders = "";
 
         assertEquals(OK_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(emptyHeaders, response.headers);
     }
@@ -199,29 +196,20 @@ public class HandlerTest {
         int emptyContent = 0;
 
         assertEquals(REDIRECT_STATUS, response.status);
-        assertEquals(EMPTY_BODY, response.body);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(REDIRECT_HEADER, response.headers);
     }
 
     @Test
-    public void kittyImageHandlerBuildsResponseForImageRequest() throws IOException {
+    public void kittyImageHandlerBuildsResponseForImageRequest() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/x-www-form-urlencoded");
 
         Request request = new Request("GET", "/kitty_image", headers, EMPTY_BODY);
         Response response = kittyImageHandler.handle(request);
 
-        File file = new File("public/tuxedo.jpg");
-        Path path = file.toPath();
-        byte[] kittyBody = Files.readAllBytes(path);
-
-        int kittyContent = 852690;
-
-
         assertEquals(OK_STATUS, response.status);
-//        assertEquals(kittyBody, response.body);
-        assertEquals(kittyContent, response.contentLength);
         assertEquals(JPEG_IMAGE_HEADER, response.headers);
     }
 }

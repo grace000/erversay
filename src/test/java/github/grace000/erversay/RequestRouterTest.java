@@ -9,6 +9,7 @@ import org.junit.Test;
 
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.*;
@@ -34,7 +35,6 @@ public class RequestRouterTest {
 
                 Request request = new Request("GET", "/mock_handle", setHeaders(), EMPTY_BODY);
 
-                System.out.println(routes.routeMap);
                 router.route(request, routes);
                 assertTrue(mockRouteHandler.handleRequestWasCalled);
         }
@@ -54,10 +54,10 @@ public class RequestRouterTest {
                 Response response = router.route(request);
 
                 int emptyContent = 0;
-                String emptyHeaders = "";
+                String emptyHeaders = "Content-Length: 0";
 
                 assertEquals(OK_STATUS, response.status);
-                assertEquals(EMPTY_BODY, response.body);
+                assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(emptyHeaders, response.headers);
         }
@@ -71,7 +71,7 @@ public class RequestRouterTest {
                 int emptyContent = 0;
 
                 assertEquals(OK_STATUS, response.status);
-                assertEquals(EMPTY_BODY, response.body);
+                assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(OPTIONS_HEADER, response.headers);
         }
@@ -85,7 +85,7 @@ public class RequestRouterTest {
                 int emptyContent = 0;
 
                 assertEquals(OK_STATUS, response.status);
-                assertEquals(EMPTY_BODY, response.body);
+                assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(OPTIONS_TWO_HEADER, response.headers);
         }
@@ -98,12 +98,12 @@ public class RequestRouterTest {
 
                 int contentLength = 9;
                 String expectedBody = "some body";
-                String emptyHeaders = "";
+                String expectedHeaders = "Content-Length: 9";
 
                 assertEquals(OK_STATUS, response.status);
-                assertEquals(expectedBody, response.body);
+                assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
                 assertEquals(contentLength, response.contentLength);
-                assertEquals(emptyHeaders, response.headers);
+                assertEquals(expectedHeaders, response.headers);
         }
 
         @Test
@@ -115,7 +115,7 @@ public class RequestRouterTest {
                 int emptyContent = 0;
 
                 assertEquals(NOT_ALLOWED_STATUS, response.status);
-                assertEquals(EMPTY_BODY, response.body);
+                assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(NOT_ALLOWED_HEADER, response.headers);
         }
@@ -129,7 +129,7 @@ public class RequestRouterTest {
                 int emptyContent = 0;
 
                 assertEquals(NOT_FOUND_STATUS, response.status);
-                assertEquals(EMPTY_BODY, response.body);
+                assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
         }
 
@@ -142,7 +142,7 @@ public class RequestRouterTest {
                 int emptyContent = 0;
 
                 assertEquals(REDIRECT_STATUS, response.status);
-                assertEquals(EMPTY_BODY, response.body);
+                assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(REDIRECT_HEADER, response.headers);
         }

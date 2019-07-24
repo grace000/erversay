@@ -16,7 +16,6 @@ public class Post implements RouteHandler {
     }
 
     public Response handle(Request request) {
-        System.out.println(request.body);
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withHeaders(CONTENT_LENGTH + ": " + request.body.getBytes().length)

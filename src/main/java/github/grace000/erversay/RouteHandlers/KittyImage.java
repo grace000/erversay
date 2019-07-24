@@ -33,10 +33,7 @@ public class KittyImage implements RouteHandler {
         ResponseBuilder fileResponse = responseBuilder;
         if (isMethodAllowed(request.method)) {
         try {
-            File file = new File("public/tuxedo.jpg");
-            Path path = file.toPath();
-            byte[] data = Files.readAllBytes(path);
-
+            byte[] data = getFilePath();
             fileResponse
                     .withStatus(OK_STATUS)
                     .withBody(data)
@@ -50,5 +47,11 @@ public class KittyImage implements RouteHandler {
                 .withHeaders(OPTIONS_HEADER)
                 .withStatus(NOT_ALLOWED_STATUS)
                 .build();
+    }
+
+    public byte[] getFilePath() throws IOException {
+        File file = new File("public/tuxedo.jpg");
+        Path path = file.toPath();
+        return Files.readAllBytes(path);
     }
 }
