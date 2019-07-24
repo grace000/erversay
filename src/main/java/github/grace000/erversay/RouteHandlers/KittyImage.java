@@ -35,8 +35,6 @@ public class KittyImage implements RouteHandler {
         try {
             File file = new File("public/tuxedo.jpg");
             Path path = file.toPath();
-            System.out.println(file.getAbsolutePath());
-            System.out.println("length " + file.length());
             byte[] data = Files.readAllBytes(path);
 
             fileResponse
