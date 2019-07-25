@@ -224,7 +224,7 @@ public class HandlerTest {
 
         String expectedBody = "update";
         int expectedContent = 6;
-        String expectedHeaders = "Content-Length: 4";
+        String expectedHeaders = "Content-Length: 6";
 
         assertEquals(OK_STATUS, response.status);
         assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
