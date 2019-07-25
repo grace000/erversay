@@ -15,6 +15,7 @@ import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 
 public class KittyImage implements RouteHandler {
     private ResponseBuilder responseBuilder = new ResponseBuilder();
+    private String absolutePath = "public/sample.jpg";
 
     public enum AcceptedMethods {
         GET
@@ -33,7 +34,7 @@ public class KittyImage implements RouteHandler {
         ResponseBuilder fileResponse = responseBuilder;
         if (isMethodAllowed(request.method)) {
         try {
-            byte[] data = getFilePath();
+            byte[] data = readFileData();
             fileResponse
                     .withStatus(OK_STATUS)
                     .withBody(data)
@@ -49,8 +50,8 @@ public class KittyImage implements RouteHandler {
                 .build();
     }
 
-    private byte[] getFilePath() throws IOException {
-        File file = new File("public/tuxedo.jpg");
+    private byte[] readFileData() throws IOException {
+        File file = new File(absolutePath);
         Path path = file.toPath();
         return Files.readAllBytes(path);
     }
