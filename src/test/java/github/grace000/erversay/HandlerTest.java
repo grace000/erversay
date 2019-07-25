@@ -7,8 +7,10 @@ import github.grace000.erversay.RouteHandlers.*;
 import org.junit.Test;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -263,7 +265,7 @@ public class HandlerTest {
     }
 
     @Test
-    public void putRequestHandlerUpdatesFileContentsForPutRequest() {
+    public void putRequestHandlerUpdatesFileContentsForPutRequest() throws IOException {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "plain/text");
 
@@ -274,7 +276,10 @@ public class HandlerTest {
         int expectedContent = 13;
         String expectedHeaders = "Content-Length: 13";
 
+        byte[] fileBytes = Files.readAllBytes(new File(sampleTextPath).toPath());
+
         assertEquals(OK_STATUS, response.status);
+        assert(Objects.deepEquals(fileBytes, response.body));
         assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
         assertEquals(expectedContent, response.contentLength);
         assertEquals(expectedHeaders, response.headers);
