@@ -1,6 +1,7 @@
 package github.grace000.erversay.Response;
 
-import java.io.*;
+import java.io.OutputStream;
+import java.io.IOException;
 
 import static github.grace000.erversay.Constants.HTTPLines.*;
 
@@ -15,7 +16,6 @@ public class ResponseWriter {
             outputStream.write((DOUBLE_LINE_FEED).getBytes());
             outputStream.write(response.body);
 
-            System.out.println("WRITER: MESSAGE SENT");
             outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
