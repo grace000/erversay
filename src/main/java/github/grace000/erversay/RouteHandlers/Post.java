@@ -25,7 +25,7 @@ public class Post implements RouteHandler {
         }
         else return responseBuilder
                 .withHeaders(NOT_ALLOWED_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
+                .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
     }
 }

@@ -31,6 +31,6 @@ public class RequestRouter {
     }
 
     private Response handleUnknownPath() {
-        return responseBuilder.withStatus(NOT_FOUND_STATUS).build();
+        return responseBuilder.withStatus(NOT_FOUND_STATUS.code).build();
     }
 }

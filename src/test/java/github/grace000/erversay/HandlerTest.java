@@ -34,7 +34,7 @@ public class HandlerTest {
         int emptyContent = 0;
         String emptyHeaders = "Content-Length: 0";
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(emptyHeaders, response.headers);
@@ -50,7 +50,7 @@ public class HandlerTest {
 
         int emptyContent = 0;
 
-        assertEquals(NOT_ALLOWED_STATUS, response.status);
+        assertEquals(NOT_ALLOWED_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_HEADER, response.headers);
@@ -66,7 +66,7 @@ public class HandlerTest {
 
         int emptyContent = 0;
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_HEADER, response.headers);
@@ -82,7 +82,7 @@ public class HandlerTest {
 
         int emptyContent = 0;
 
-        assertEquals(NOT_ALLOWED_STATUS, response.status);
+        assertEquals(NOT_ALLOWED_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_HEADER, response.headers);
@@ -98,7 +98,7 @@ public class HandlerTest {
 
         int emptyContent = 0;
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_TWO_HEADER, response.headers);
@@ -114,7 +114,7 @@ public class HandlerTest {
 
         String emptyHeaders = "";
 
-        assertNotSame(NOT_ALLOWED_STATUS, response.status);
+        assertNotSame(NOT_ALLOWED_STATUS.code, response.status);
         assertNotSame(emptyHeaders, response.headers);
     }
 
@@ -128,7 +128,7 @@ public class HandlerTest {
 
         int emptyContent = 0;
 
-        assertEquals(NOT_ALLOWED_STATUS, response.status);
+        assertEquals(NOT_ALLOWED_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_TWO_HEADER, response.headers);
@@ -146,7 +146,7 @@ public class HandlerTest {
         String expectedBody = "body";
         String expectedHeaders = "Content-Length: 4";
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
         assertEquals(contentLength, response.contentLength);
         assertEquals(expectedHeaders, response.headers);
@@ -162,7 +162,7 @@ public class HandlerTest {
 
         int emptyContent = 0;
 
-        assertEquals(NOT_ALLOWED_STATUS, response.status);
+        assertEquals(NOT_ALLOWED_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(NOT_ALLOWED_HEADER, response.headers);
@@ -179,7 +179,7 @@ public class HandlerTest {
         int emptyContent = 0;
         String emptyHeaders = "";
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(emptyHeaders, response.headers);
@@ -195,7 +195,7 @@ public class HandlerTest {
 
         int emptyContent = 0;
 
-        assertEquals(REDIRECT_STATUS, response.status);
+        assertEquals(REDIRECT_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(REDIRECT_HEADER, response.headers);
@@ -209,7 +209,7 @@ public class HandlerTest {
         Request request = new Request("GET", "/kitty_image", headers, EMPTY_BODY);
         Response response = kittyImageHandler.handle(request);
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assertEquals(JPEG_IMAGE_HEADER, response.headers);
     }
 }

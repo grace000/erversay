@@ -21,7 +21,7 @@ public class ResponseBuilderTest {
         int emptyContent = 0;
         String emptyHeaders = "";
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(emptyHeaders, response.headers);
@@ -33,7 +33,7 @@ public class ResponseBuilderTest {
 
         int emptyContent = 0;
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
         assertEquals(OPTIONS_HEADER, response.headers);

@@ -3,7 +3,7 @@ package github.grace000.erversay.Response;
 import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 
 public class ResponseBuilder {
-    private String status = OK_STATUS;
+    private String status = OK_STATUS.code;
     private byte[] body = new byte[0];
     private int contentLength = 0;
     private String headers = "";

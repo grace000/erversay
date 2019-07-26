@@ -32,7 +32,7 @@ public class SimpleGet implements RouteHandler {
         }
         else return responseBuilder
                 .withHeaders(OPTIONS_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
+                .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
     }
 }

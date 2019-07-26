@@ -28,12 +28,12 @@ public class Options implements RouteHandler{
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withHeaders(OPTIONS_HEADER)
-                    .withStatus(OK_STATUS)
+                    .withStatus(OK_STATUS.code)
                     .build();
         }
         else return responseBuilder
                 .withHeaders(OPTIONS_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
+                .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
     }
 }

@@ -35,7 +35,7 @@ public class KittyImage implements RouteHandler {
         try {
             byte[] data = getFilePath();
             fileResponse
-                    .withStatus(OK_STATUS)
+                    .withStatus(OK_STATUS.code)
                     .withBody(data)
                     .withHeaders(JPEG_IMAGE_HEADER);
             } catch (IOException e) {
@@ -45,7 +45,7 @@ public class KittyImage implements RouteHandler {
         }
         else return responseBuilder
                 .withHeaders(OPTIONS_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
+                .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
     }
 

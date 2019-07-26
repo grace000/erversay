@@ -32,7 +32,7 @@ public class OptionsTwo implements RouteHandler {
         }
         else return responseBuilder
                 .withHeaders(OPTIONS_TWO_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
+                .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
     }
 }
