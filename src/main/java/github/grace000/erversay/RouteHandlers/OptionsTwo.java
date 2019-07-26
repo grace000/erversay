@@ -5,6 +5,9 @@ import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.Response.ResponseBuilder;
 
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static github.grace000.erversay.Constants.Headers.OPTIONS_TWO_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
 
@@ -27,12 +30,23 @@ public class OptionsTwo implements RouteHandler {
     public Response handle(Request request) {
         if (isMethodAllowed(request.method)) {
             return responseBuilder
-                    .withHeaders(OPTIONS_TWO_HEADER)
+                    .withHeaders("Allow: " + getMethods())
                     .build();
         }
-        else return responseBuilder
-                .withHeaders(OPTIONS_TWO_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
-                .build();
+        else {
+            return responseBuilder
+                    .withHeaders("Allow: " + getMethods())
+                    .withStatus(NOT_ALLOWED_STATUS.code)
+                    .build();
+        }
+    }
+
+    private String getMethods() {
+        List<String> methods = new LinkedList<>();
+
+        for(AcceptedMethods acceptedMethod : AcceptedMethods.values()) {
+            methods.add(acceptedMethod.name());
+        }
+        return String.join(", ", methods);
     }
 }

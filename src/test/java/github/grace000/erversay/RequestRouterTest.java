@@ -2,7 +2,6 @@ package github.grace000.erversay;
 
 import github.grace000.erversay.Request.Request;
 import github.grace000.erversay.Response.Response;
-import github.grace000.erversay.RouteHandlers.RouteHandler;
 import github.grace000.erversay.Router.RequestRouter;
 import github.grace000.erversay.Router.Routes;
 import org.junit.Test;
@@ -11,7 +10,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
+import static github.grace000.erversay.Constants.HTTPLines.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.*;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 import static junit.framework.TestCase.assertEquals;
@@ -56,7 +55,7 @@ public class RequestRouterTest {
                 int emptyContent = 0;
                 String emptyHeaders = "Content-Length: 0";
 
-                assertEquals(OK_STATUS, response.status);
+                assertEquals(OK_STATUS.code, response.status);
                 assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(emptyHeaders, response.headers);
@@ -70,10 +69,10 @@ public class RequestRouterTest {
 
                 int emptyContent = 0;
 
-                assertEquals(OK_STATUS, response.status);
+                assertEquals(OK_STATUS.code, response.status);
                 assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
-                assertEquals(OPTIONS_HEADER, response.headers);
+                assertEquals("Allow: GET, HEAD, OPTIONS", response.headers);
         }
 
         @Test
@@ -84,10 +83,10 @@ public class RequestRouterTest {
 
                 int emptyContent = 0;
 
-                assertEquals(OK_STATUS, response.status);
+                assertEquals(OK_STATUS.code, response.status);
                 assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
-                assertEquals(OPTIONS_TWO_HEADER, response.headers);
+                assertEquals("Allow: GET, HEAD, OPTIONS, PUT, POST", response.headers);
         }
 
         @Test
@@ -100,7 +99,7 @@ public class RequestRouterTest {
                 String expectedBody = "some body";
                 String expectedHeaders = "Content-Length: 9";
 
-                assertEquals(OK_STATUS, response.status);
+                assertEquals(CREATED.code, response.status);
                 assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
                 assertEquals(contentLength, response.contentLength);
                 assertEquals(expectedHeaders, response.headers);
@@ -114,7 +113,7 @@ public class RequestRouterTest {
 
                 int emptyContent = 0;
 
-                assertEquals(NOT_ALLOWED_STATUS, response.status);
+                assertEquals(NOT_ALLOWED_STATUS.code, response.status);
                 assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(NOT_ALLOWED_HEADER, response.headers);
@@ -128,7 +127,7 @@ public class RequestRouterTest {
 
                 int emptyContent = 0;
 
-                assertEquals(NOT_FOUND_STATUS, response.status);
+                assertEquals(NOT_FOUND_STATUS.code, response.status);
                 assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
         }
@@ -141,7 +140,7 @@ public class RequestRouterTest {
 
                 int emptyContent = 0;
 
-                assertEquals(REDIRECT_STATUS, response.status);
+                assertEquals(REDIRECT_STATUS.code, response.status);
                 assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
                 assertEquals(emptyContent, response.contentLength);
                 assertEquals(REDIRECT_HEADER, response.headers);

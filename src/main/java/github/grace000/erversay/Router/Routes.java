@@ -4,16 +4,17 @@ import github.grace000.erversay.RouteHandlers.*;
 
 import java.util.HashMap;
 
+import static github.grace000.erversay.Constants.Paths.*;
+
 public class Routes {
     public HashMap<String, RouteHandler> routeMap = new HashMap<>();
     {
-        routeMap.put("/simple_get", new SimpleGet());
-        routeMap.put("/method_options", new Options());
-        routeMap.put("/method_options2", new OptionsTwo());
-        routeMap.put("/echo_body", new Post());
-        routeMap.put("/get_with_body", new NotAllowed());
-        routeMap.put("/redirect", new Redirect());
-        routeMap.put("/kitty_image", new KittyImage());
-        routeMap.put("/update_body", new Put());
+        routeMap.put(SIMPLE_GET.path, new SimpleGet());
+        routeMap.put(METHODS_ONE.path, new Options());
+        routeMap.put(METHODS_TWO.path, new OptionsTwo());
+        routeMap.put(ECHO_BODY.path, new Post());
+        routeMap.put(GET_WITH_BODY.path, new NotAllowed());
+        routeMap.put(REDIRECT.path, new Redirect());
+        routeMap.put(KITTY_IMAGE.path, new KittyImage());
     }
 }

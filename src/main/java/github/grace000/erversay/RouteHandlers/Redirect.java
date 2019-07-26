@@ -27,11 +27,13 @@ public class Redirect implements RouteHandler {
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withHeaders(REDIRECT_HEADER)
-                    .withStatus(REDIRECT_STATUS)
+                    .withStatus(REDIRECT_STATUS.code)
                     .build();
         }
-        else return responseBuilder
-                .withStatus(NOT_FOUND_STATUS)
-                .build();
+        else {
+            return responseBuilder
+                    .withStatus(NOT_FOUND_STATUS.code)
+                    .build();
+        }
     }
 }

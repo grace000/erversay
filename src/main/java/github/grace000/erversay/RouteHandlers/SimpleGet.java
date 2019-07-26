@@ -4,8 +4,10 @@ import github.grace000.erversay.Request.Request;
 import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.Response.ResponseBuilder;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static github.grace000.erversay.Constants.Headers.CONTENT_LENGTH;
-import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
 
 public class SimpleGet implements RouteHandler {
@@ -30,9 +32,20 @@ public class SimpleGet implements RouteHandler {
                         .withHeaders(CONTENT_LENGTH + ": 0")
                         .build();
         }
-        else return responseBuilder
-                .withHeaders(OPTIONS_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
+        else {
+            return responseBuilder
+                .withHeaders("Allow: " + getMethods())
+                .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
+        }
+    }
+
+    private String getMethods() {
+        List<String> methods = new LinkedList<>();
+
+        for(AcceptedMethods acceptedMethod : AcceptedMethods.values()) {
+            methods.add(acceptedMethod.name());
+        }
+        return String.join(", ", methods);
     }
 }
