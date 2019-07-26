@@ -40,6 +40,8 @@ $ git clone https://github.com/grace000/erversay.git
  2. HEAD request (/simple_get)
  3. OPTIONS request(/method_options and /method_options2)
  4. POST request(/echo_body), note: you'll need to add a body of text to your request
+ 5. PUT request (/update_body), note: you'll need to add a body of text and make a GET request to /update_body to see the updated body
+ 6. Kitty image serving, GET request (/kitty_image) to see a pic of my cat, Bukeqi
  
  Sending a GET request to /get_with_body will incur a response with the methods allowed on that path. Sending a request to any other path will invoke a not found response.
  
