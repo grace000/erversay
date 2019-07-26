@@ -8,8 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static github.grace000.erversay.Constants.Headers.CONTENT_LENGTH;
-import static github.grace000.erversay.Constants.StatusCodes.CREATED;
-import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
+import static github.grace000.erversay.Constants.StatusCodes.*;
 
 public class Post implements RouteHandler {
     private ResponseBuilder responseBuilder = new ResponseBuilder();
@@ -33,7 +32,7 @@ public class Post implements RouteHandler {
                     .withHeaders(CONTENT_LENGTH + ": " + request.body.getBytes().length)
                     .withBody(request.body)
                     .withContentLength(request.body.length(), request.body.getBytes())
-                    .withStatus(CREATED.code)
+                    .withStatus(OK_STATUS.code)
                     .build();
         }
         else {

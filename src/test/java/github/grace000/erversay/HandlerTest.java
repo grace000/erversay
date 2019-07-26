@@ -161,7 +161,7 @@ public class HandlerTest {
         String expectedBody = "body";
         String expectedHeaders = "Content-Length: 4";
 
-        assertEquals(CREATED.code, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
         assertEquals(contentLength, response.contentLength);
         assertEquals(expectedHeaders, response.headers);
@@ -240,7 +240,7 @@ public class HandlerTest {
         int expectedContent = 6;
         String expectedHeaders = "Content-Length: 6";
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
         assertEquals(expectedContent, response.contentLength);
         assertEquals(expectedHeaders, response.headers);
@@ -259,7 +259,7 @@ public class HandlerTest {
         int expectedContent = 5;
         String expectedHeaders = "Content-Length: 5";
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assertEquals(expectedContent, response.contentLength);
         assertEquals(expectedHeaders, response.headers);
     }
@@ -278,7 +278,7 @@ public class HandlerTest {
 
         byte[] fileBytes = Files.readAllBytes(new File(sampleTextPath).toPath());
 
-        assertEquals(OK_STATUS, response.status);
+        assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(fileBytes, response.body));
         assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
         assertEquals(expectedContent, response.contentLength);

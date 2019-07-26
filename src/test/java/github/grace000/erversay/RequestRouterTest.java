@@ -99,7 +99,7 @@ public class RequestRouterTest {
                 String expectedBody = "some body";
                 String expectedHeaders = "Content-Length: 9";
 
-                assertEquals(CREATED.code, response.status);
+                assertEquals(OK_STATUS.code, response.status);
                 assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
                 assertEquals(contentLength, response.contentLength);
                 assertEquals(expectedHeaders, response.headers);

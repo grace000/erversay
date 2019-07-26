@@ -59,7 +59,7 @@ public class Put implements RouteHandler{
     private Response methodNotAllowedResponse() {
         return responseBuilder
                 .withHeaders(PUT_HEADER)
-                .withStatus(NOT_ALLOWED_STATUS)
+                .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
     }
 
