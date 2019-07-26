@@ -1,19 +1,18 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Constants.Headers;
 import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.Response.ResponseBuilder;
 import org.junit.Test;
 
 import java.util.Objects;
 
-import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
+import static github.grace000.erversay.Constants.HTTPLines.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 import static junit.framework.TestCase.assertEquals;
 
 public class ResponseBuilderTest {
-    ResponseBuilder responseBuilder = new ResponseBuilder();
+    private ResponseBuilder responseBuilder = new ResponseBuilder();
 
     @Test
     public void itReturnsADefaultResponseObjectWithOkStatus() {

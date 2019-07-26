@@ -2,7 +2,6 @@ package github.grace000.erversay;
 
 import github.grace000.erversay.Request.Request;
 import github.grace000.erversay.Response.Response;
-import github.grace000.erversay.RouteHandlers.RouteHandler;
 import github.grace000.erversay.Router.RequestRouter;
 import github.grace000.erversay.Router.Routes;
 import org.junit.Test;
@@ -11,7 +10,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
+import static github.grace000.erversay.Constants.HTTPLines.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.*;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 import static junit.framework.TestCase.assertEquals;

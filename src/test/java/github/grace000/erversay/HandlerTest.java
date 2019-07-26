@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static github.grace000.erversay.Constants.Body.EMPTY_BODY;
+import static github.grace000.erversay.Constants.HTTPLines.EMPTY_BODY;
 import static github.grace000.erversay.Constants.Headers.*;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 import static junit.framework.TestCase.*;
