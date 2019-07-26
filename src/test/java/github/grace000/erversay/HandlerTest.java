@@ -6,6 +6,11 @@ import github.grace000.erversay.RouteHandlers.*;
 
 import org.junit.Test;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -22,6 +27,16 @@ public class HandlerTest {
     private RouteHandler notAllowedHandler = new NotAllowed();
     private RouteHandler redirectHandler = new Redirect();
     private RouteHandler kittyImageHandler = new KittyImage();
+    private RouteHandler putHandler = new Put();
+
+    private String fileData = "Bacon";
+    private String sampleTextPath = "public/sample.txt";
+
+    private void writeToFile() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(sampleTextPath));
+        writer.write(fileData);
+        writer.close();
+    }
 
     @Test
     public void simpleGetHandlerBuildsResponseForGetMethod() {
@@ -211,5 +226,62 @@ public class HandlerTest {
 
         assertEquals(OK_STATUS.code, response.status);
         assertEquals(JPEG_IMAGE_HEADER, response.headers);
+    }
+
+    @Test
+    public void putRequestHandlerBuildsResponseForPutRequest() {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        Request request = new Request("PUT", "/update_body", headers, "update");
+        Response response = putHandler.handle(request);
+
+        String expectedBody = "update";
+        int expectedContent = 6;
+        String expectedHeaders = "Content-Length: 6";
+
+        assertEquals(OK_STATUS, response.status);
+        assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
+        assertEquals(expectedContent, response.contentLength);
+        assertEquals(expectedHeaders, response.headers);
+    }
+
+    @Test
+    public void putRequestHandlerSendsFileContentsForGetRequest() throws IOException {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded");
+
+        writeToFile();
+
+        Request request = new Request("GET", "/update_body", headers, "");
+        Response response = putHandler.handle(request);
+
+        int expectedContent = 5;
+        String expectedHeaders = "Content-Length: 5";
+
+        assertEquals(OK_STATUS, response.status);
+        assertEquals(expectedContent, response.contentLength);
+        assertEquals(expectedHeaders, response.headers);
+    }
+
+    @Test
+    public void putRequestHandlerUpdatesFileContentsForPutRequest() throws IOException {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "plain/text");
+
+        Request request = new Request("PUT", "/update_body", headers, "Piggly wiggly");
+        Response response = putHandler.handle(request);
+
+        String expectedBody = "Piggly wiggly";
+        int expectedContent = 13;
+        String expectedHeaders = "Content-Length: 13";
+
+        byte[] fileBytes = Files.readAllBytes(new File(sampleTextPath).toPath());
+
+        assertEquals(OK_STATUS, response.status);
+        assert(Objects.deepEquals(fileBytes, response.body));
+        assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
+        assertEquals(expectedContent, response.contentLength);
+        assertEquals(expectedHeaders, response.headers);
     }
 }
