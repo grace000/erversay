@@ -33,10 +33,12 @@ public class OptionsTwo implements RouteHandler {
                     .withHeaders("Allow: " + getMethods())
                     .build();
         }
-        else return responseBuilder
-                .withHeaders("Allow: " + getMethods())
-                .withStatus(NOT_ALLOWED_STATUS.code)
-                .build();
+        else {
+            return responseBuilder
+                    .withHeaders("Allow: " + getMethods())
+                    .withStatus(NOT_ALLOWED_STATUS.code)
+                    .build();
+        }
     }
 
     private String getMethods() {

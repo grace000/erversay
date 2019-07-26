@@ -30,8 +30,10 @@ public class Redirect implements RouteHandler {
                     .withStatus(REDIRECT_STATUS.code)
                     .build();
         }
-        else return responseBuilder
-                .withStatus(NOT_FOUND_STATUS.code)
-                .build();
+        else {
+            return responseBuilder
+                    .withStatus(NOT_FOUND_STATUS.code)
+                    .build();
+        }
     }
 }

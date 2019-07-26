@@ -31,10 +31,12 @@ public class NotAllowed implements RouteHandler {
             return responseBuilder
                     .build();
         }
-        else return responseBuilder
-                .withHeaders("Allow: " + getMethods())
-                .withStatus(NOT_ALLOWED_STATUS.code)
-                .build();
+        else {
+            return responseBuilder
+                    .withHeaders("Allow: " + getMethods())
+                    .withStatus(NOT_ALLOWED_STATUS.code)
+                    .build();
+        }
     }
 
     private String getMethods() {

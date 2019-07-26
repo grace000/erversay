@@ -32,10 +32,12 @@ public class SimpleGet implements RouteHandler {
                         .withHeaders(CONTENT_LENGTH + ": 0")
                         .build();
         }
-        else return responseBuilder
+        else {
+            return responseBuilder
                 .withHeaders("Allow: " + getMethods())
                 .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
+        }
     }
 
     private String getMethods() {

@@ -45,10 +45,12 @@ public class KittyImage implements RouteHandler {
             }
         return fileResponse.build();
         }
-        else return responseBuilder
+        else {
+            return responseBuilder
                 .withHeaders("Allow: " + getMethods())
                 .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
+        }
     }
 
     private byte[] getFilePath() throws IOException {

@@ -34,10 +34,12 @@ public class Options implements RouteHandler{
                     .withStatus(OK_STATUS.code)
                     .build();
         }
-        else return responseBuilder
-                .withHeaders("Allow: " + getMethods())
-                .withStatus(NOT_ALLOWED_STATUS.code)
-                .build();
+        else {
+            return responseBuilder
+                    .withHeaders("Allow: " + getMethods())
+                    .withStatus(NOT_ALLOWED_STATUS.code)
+                    .build();
+        }
     }
 
     private String getMethods() {
