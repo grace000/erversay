@@ -7,7 +7,8 @@ public enum Paths {
   ECHO_BODY("/echo_body"),
   GET_WITH_BODY("/get_with_body"),
   REDIRECT("/redirect"),
-  KITTY_IMAGE("/kitty_image");
+  KITTY_IMAGE("/kitty_image"),
+  UPDATE_BODY("/update_body");
 
     public final String path;
 

@@ -16,5 +16,6 @@ public class Routes {
         routeMap.put(GET_WITH_BODY.path, new NotAllowed());
         routeMap.put(REDIRECT.path, new Redirect());
         routeMap.put(KITTY_IMAGE.path, new KittyImage());
+        routeMap.put(UPDATE_BODY.path, new Put());
     }
 }
