@@ -1,23 +1,41 @@
 package github.grace000.erversay;
 
-import github.grace000.erversay.Constants.Headers;
+import github.grace000.erversay.Response.Response;
+import github.grace000.erversay.Response.ResponseBuilder;
 import org.junit.Test;
 
+import java.util.Objects;
+
+import static github.grace000.erversay.Constants.HTTPLines.EMPTY_BODY;
+import static github.grace000.erversay.Constants.Headers.OPTIONS_HEADER;
+import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 import static junit.framework.TestCase.assertEquals;
 
 public class ResponseBuilderTest {
+    private ResponseBuilder responseBuilder = new ResponseBuilder();
 
     @Test
-    public void itReturnsAFormattedDefaultResponse() {
-        ResponseBuilder responseBuilder = new ResponseBuilder();
-        String formattedResponse = responseBuilder.build();
-        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n");
+    public void itReturnsADefaultResponseObjectWithOkStatus() {
+        Response response = responseBuilder.build();
+
+        int emptyContent = 0;
+        String emptyHeaders = "";
+
+        assertEquals(OK_STATUS.code, response.status);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
+        assertEquals(emptyContent, response.contentLength);
+        assertEquals(emptyHeaders, response.headers);
     }
 
     @Test
     public void itReturnsHeadersForOptionsResponse() {
-        ResponseBuilder response = new ResponseBuilder().withHeaders(Headers.OPTIONS_HEADER);
-        String formattedResponse = response.build();
-        assertEquals(formattedResponse, "HTTP/1.1 200 OK\r\nAllow: OPTIONS, GET, HEAD\r\nContent-Length: 0\r\n\r\n");
+        Response response = responseBuilder.withHeaders(OPTIONS_HEADER).build();
+
+        int emptyContent = 0;
+
+        assertEquals(OK_STATUS.code, response.status);
+        assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
+        assertEquals(emptyContent, response.contentLength);
+        assertEquals(OPTIONS_HEADER, response.headers);
     }
 }

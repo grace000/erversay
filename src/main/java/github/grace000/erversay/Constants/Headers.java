@@ -6,4 +6,5 @@ public final class Headers {
     public final static String CONTENT_LENGTH = "Content-Length";
     public final static String NOT_ALLOWED_HEADER = "Allow: HEAD, OPTIONS";
     public final static String REDIRECT_HEADER = "Location: http://127.0.0.1:5000/simple_get";
+    public final static String JPEG_IMAGE_HEADER = "Content-Type: image/jpeg";
 }

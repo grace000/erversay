@@ -4,18 +4,22 @@ import github.grace000.erversay.Request.Request;
 import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.Response.ResponseBuilder;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 
-import static github.grace000.erversay.Constants.Headers.CONTENT_LENGTH;
-import static github.grace000.erversay.Constants.StatusCodes.CREATED;
+import static github.grace000.erversay.Constants.Headers.*;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
+import static github.grace000.erversay.Constants.StatusCodes.OK_STATUS;
 
-public class Post implements RouteHandler {
+public class KittyImage implements RouteHandler {
     private ResponseBuilder responseBuilder = new ResponseBuilder();
 
     public enum AcceptedMethods {
-        POST
+        GET
     }
 
     public boolean isMethodAllowed(String method) {
@@ -28,13 +32,18 @@ public class Post implements RouteHandler {
     }
 
     public Response handle(Request request) {
+        ResponseBuilder fileResponse = responseBuilder;
         if (isMethodAllowed(request.method)) {
-            return responseBuilder
-                    .withHeaders(CONTENT_LENGTH + ": " + request.body.getBytes().length)
-                    .withBody(request.body)
-                    .withContentLength(request.body.length(), request.body.getBytes())
-                    .withStatus(CREATED.code)
-                    .build();
+        try {
+            byte[] data = getFilePath();
+            fileResponse
+                    .withStatus(OK_STATUS.code)
+                    .withBody(data)
+                    .withHeaders(JPEG_IMAGE_HEADER);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return fileResponse.build();
         }
         else {
             return responseBuilder
@@ -42,6 +51,12 @@ public class Post implements RouteHandler {
                 .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
         }
+    }
+
+    private byte[] getFilePath() throws IOException {
+        File file = new File("public/tuxedo.jpg");
+        Path path = file.toPath();
+        return Files.readAllBytes(path);
     }
 
     private String getMethods() {

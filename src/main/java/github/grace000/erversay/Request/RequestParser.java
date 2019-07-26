@@ -1,4 +1,6 @@
-package github.grace000.erversay;
+package github.grace000.erversay.Request;
+
+import github.grace000.erversay.Request.Request;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +23,7 @@ public class RequestParser {
         parseHeaders(bufferedReader);
         parseBody(bufferedReader);
 
-        return new Request(method, path, body);
+        return new Request(method, path, headers, body);
     }
 
     private void parseRequestLine(BufferedReader request)  throws IOException {

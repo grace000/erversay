@@ -1,9 +1,9 @@
 package github.grace000.erversay.RouteHandlers;
 
-import github.grace000.erversay.Request;
-import github.grace000.erversay.ResponseBuilder;
+import github.grace000.erversay.Request.Request;
+import github.grace000.erversay.Response.Response;
+import github.grace000.erversay.Response.ResponseBuilder;
 
-import static github.grace000.erversay.Constants.Headers.NOT_ALLOWED_HEADER;
 import static github.grace000.erversay.Constants.Headers.REDIRECT_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 
@@ -23,14 +23,17 @@ public class Redirect implements RouteHandler {
         return false;
     }
 
-    public String handle(Request request) {
+    public Response handle(Request request) {
         if (isMethodAllowed(request.method)) {
             return responseBuilder
                     .withHeaders(REDIRECT_HEADER)
-                    .withStatus(REDIRECT_STATUS)
+                    .withStatus(REDIRECT_STATUS.code)
                     .build();
-        } else return responseBuilder
-                .withStatus(NOT_FOUND_STATUS)
-                .build();
+        }
+        else {
+            return responseBuilder
+                    .withStatus(NOT_FOUND_STATUS.code)
+                    .build();
+        }
     }
 }

@@ -1,12 +1,12 @@
 package github.grace000.erversay;
 
+import github.grace000.erversay.Request.Request;
+import github.grace000.erversay.Request.RequestParser;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 
 public class RequestParserTest {
     private String requestWithBody = "GET /piggly HTTP/1.1\r\nContent-Type: text/plain\r\nContent-Length: 6\r\n\r\npiggly";
