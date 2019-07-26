@@ -146,7 +146,7 @@ public class HandlerTest {
         String expectedBody = "body";
         String expectedHeaders = "Content-Length: 4";
 
-        assertEquals(OK_STATUS.code, response.status);
+        assertEquals(CREATED.code, response.status);
         assert(Objects.deepEquals(expectedBody.getBytes(), response.body));
         assertEquals(contentLength, response.contentLength);
         assertEquals(expectedHeaders, response.headers);
