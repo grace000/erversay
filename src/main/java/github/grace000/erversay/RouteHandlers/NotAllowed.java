@@ -4,6 +4,9 @@ import github.grace000.erversay.Request.Request;
 import github.grace000.erversay.Response.Response;
 import github.grace000.erversay.Response.ResponseBuilder;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static github.grace000.erversay.Constants.Headers.NOT_ALLOWED_HEADER;
 import static github.grace000.erversay.Constants.StatusCodes.*;
 
@@ -29,8 +32,17 @@ public class NotAllowed implements RouteHandler {
                     .build();
         }
         else return responseBuilder
-                .withHeaders(NOT_ALLOWED_HEADER)
+                .withHeaders("Allow: " + getMethods())
                 .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
+    }
+
+    private String getMethods() {
+        List<String> methods = new LinkedList<>();
+
+        for(AllowedMethods acceptedMethod : AllowedMethods.values()) {
+            methods.add(acceptedMethod.name());
+        }
+        return String.join(", ", methods);
     }
 }

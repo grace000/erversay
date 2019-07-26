@@ -53,7 +53,7 @@ public class HandlerTest {
         assertEquals(NOT_ALLOWED_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
-        assertEquals(OPTIONS_HEADER, response.headers);
+        assertEquals("Allow: GET, HEAD, OPTIONS", response.headers);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class HandlerTest {
         assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
-        assertEquals(OPTIONS_HEADER, response.headers);
+        assertEquals("Allow: GET, HEAD, OPTIONS", response.headers);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class HandlerTest {
         assertEquals(NOT_ALLOWED_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
-        assertEquals(OPTIONS_HEADER, response.headers);
+        assertEquals("Allow: GET, HEAD, OPTIONS", response.headers);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class HandlerTest {
         assertEquals(OK_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
-        assertEquals(OPTIONS_TWO_HEADER, response.headers);
+        assertEquals("Allow: GET, HEAD, OPTIONS, PUT, POST", response.headers);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class HandlerTest {
         assertEquals(NOT_ALLOWED_STATUS.code, response.status);
         assert(Objects.deepEquals(EMPTY_BODY.getBytes(), response.body));
         assertEquals(emptyContent, response.contentLength);
-        assertEquals(OPTIONS_TWO_HEADER, response.headers);
+        assertEquals("Allow: GET, HEAD, OPTIONS, PUT, POST", response.headers);
     }
 
     @Test

@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
+import java.util.List;
 
 import static github.grace000.erversay.Constants.Headers.*;
 import static github.grace000.erversay.Constants.StatusCodes.NOT_ALLOWED_STATUS;
@@ -44,14 +46,23 @@ public class KittyImage implements RouteHandler {
         return fileResponse.build();
         }
         else return responseBuilder
-                .withHeaders(OPTIONS_HEADER)
+                .withHeaders("Allow: " + getMethods())
                 .withStatus(NOT_ALLOWED_STATUS.code)
                 .build();
     }
 
-    public byte[] getFilePath() throws IOException {
+    private byte[] getFilePath() throws IOException {
         File file = new File("public/tuxedo.jpg");
         Path path = file.toPath();
         return Files.readAllBytes(path);
+    }
+
+    private String getMethods() {
+        List<String> methods = new LinkedList<>();
+
+        for(AcceptedMethods acceptedMethod : AcceptedMethods.values()) {
+            methods.add(acceptedMethod.name());
+        }
+        return String.join(", ", methods);
     }
 }
